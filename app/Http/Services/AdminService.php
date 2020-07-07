@@ -32,4 +32,13 @@ class AdminService
     {
         return \Session::decrement('Admin');
     }
+
+    /**
+     * 获取登录用户信息
+     * @return mixed
+     */
+    public static function LoginInfo()
+    {
+        return \Session::get('Admin');
+    }
 }

@@ -175,6 +175,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /**
+         * Macroable 重构
+         */
+        App\Providers\CollectionMacroServiceProvider::class,
+
     ],
 
     /*

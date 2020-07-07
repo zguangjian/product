@@ -22,3 +22,5 @@ function ResponseJson($msg = "", $err = 0, $data = [])
     $time = time();
     return response()->json(compact('err', 'msg', 'data', 'time'));
 }
+
+

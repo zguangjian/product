@@ -13,5 +13,16 @@ Route::group(['prefix' => 'public'], function () {
 });
 Route::group(['middleware' => ['admin.Login', 'admin.Auth']], function () {
     Route::get('/', 'IndexController@Index');
+    Route::get('welcome', 'IndexController@Welecome');
 
+    Route::group(['prefix' => 'menu'], function () {
+        Route::get('index', 'MenuIndexController@Index')->name('menu-index');
+        Route::match(['get', 'post'], 'add', 'MenuIndexController@Add')->name('menu-add');
+        Route::match(['get', 'post'], 'edit/{id}', 'MenuIndexController@Edit')->name('menu-edit');
+        Route::get('del/{id}', 'MenuIndexController@Del')->name('menu-del');
+    });
+
+    Route::group(['prefix' => 'menu'], function () {
+
+    });
 });
