@@ -7,6 +7,8 @@
  * Email: zguangjian@outlook.com
  */
 
+use Illuminate\Support\Facades\Hash;
+
 /*自定义函数*/
 
 /**
@@ -16,11 +18,39 @@
  * @param array $data 数据
  * @return \Illuminate\Http\JsonResponse
  */
-function ResponseJson($msg = "", $err = 0, $data = [])
+function responseJson($msg = "", $err = 0, $data = [])
 {
     header('Access-Control-Allow-Origin:*');
     $time = time();
     return response()->json(compact('err', 'msg', 'data', 'time'));
+}
+
+/**
+ * 哈希加密字符串
+ * @param $str
+ * @return string
+ */
+function hashMake($str)
+{
+    return Hash::make($str);
+}
+
+/**
+ * 验证哈希字符串是否匹配
+ * @param $str
+ * @param string $hashString
+ * @return bool|string
+ */
+function hashCheck($str, $hashString = '')
+{
+    if (Hash::check($str, $hashString)) {
+        //检查字符串是否需要被重新哈希
+        if (Hash::needsRehash($hashString)) {
+            $hashString = hashMake($str);
+        }
+        return $hashString;
+    }
+    return false;
 }
 
 

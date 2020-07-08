@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Models\AdminModel;
 use App\Http\Services\AdminService;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Route;
 
 class PublicController extends Controller
 {
@@ -15,9 +14,16 @@ class PublicController extends Controller
     public function Login(Request $request, Collection $collect)
     {
         if ($request->method() == 'POST') {
-
+            $data = $request->post();
         }
-        return ResponseJson('1', '0', Route::getRoutes());
+        AdminModel::create([
+            'account' => 'admin',
+            'email' => 'zguangjian@outlook.com',
+            'password' => hashMake('123456'),
+            'loginIp' => '127.0.0.1',
+            'status' => 1,
+            'loginTime' => time(),
+        ]);
         return view('admin.public.login');
     }
 
