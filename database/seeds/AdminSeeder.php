@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Http\Models\AdminModel;
+use App\Models\AdminModel;
 
 class AdminSeeder extends Seeder
 {
@@ -13,13 +13,14 @@ class AdminSeeder extends Seeder
     public function run()
     {
         //创建管理员帐号
-        AdminModel::create([
-            'account' => 'admin',
-            'email' => 'zguangjian@outlook.com',
-            'password' => hashMake('123456'),
-            'loginIp' => '127.0.0.1',
-            'status' => 1,
-            'loginTime' => time(),
-        ]);
+//        AdminModel::create([
+//            'account' => 'admin',
+//            'email' => 'zguangjian@outlook.com',
+//            'password' => hashMake('123456'),
+//            'loginIp' => '127.0.0.1',
+//            'status' => 1,
+//            'loginTime' => time(),
+//        ]);
+        factory(AdminModel::class, 10)->create();
     }
 }
