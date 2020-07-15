@@ -14,15 +14,15 @@ use Illuminate\Support\Facades\Hash;
 /**
  * ajax数据返回
  * @param string $msg 信息
- * @param int $err 0失败 1成功
+ * @param int $code 0失败 1成功
  * @param array $data 数据
  * @return \Illuminate\Http\JsonResponse
  */
-function responseJson($msg = "", $err = 0, $data = [])
+function responseJson($msg = "", $code = 0, $data = [])
 {
     header('Access-Control-Allow-Origin:*');
     $time = time();
-    return response()->json(compact('err', 'msg', 'data', 'time'));
+    return response()->json(compact('code', 'msg', 'data', 'time'));
 }
 
 /**

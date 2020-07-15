@@ -12,8 +12,8 @@ Route::group(['prefix' => 'public'], function () {
     Route::get('out', 'PublicController@out');
 });
 Route::group(['middleware' => ['admin.Login', 'admin.Auth']], function () {
-    Route::get('/', 'IndexController@Index');
-    Route::get('welcome', 'IndexController@Welecome');
+    Route::get('/', 'IndexController@Index')->name('admin-index');
+    Route::get('welcome', 'IndexController@Welcome')->name('admin-welcome');
 
     Route::group(['prefix' => 'menu'], function () {
         Route::get('index', 'MenuIndexController@Index')->name('menu-index');
@@ -22,7 +22,4 @@ Route::group(['middleware' => ['admin.Login', 'admin.Auth']], function () {
         Route::get('del/{id}', 'MenuIndexController@Del')->name('menu-del');
     });
 
-    Route::group(['prefix' => 'menu'], function () {
-
-    });
 });

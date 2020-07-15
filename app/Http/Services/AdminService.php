@@ -10,6 +10,8 @@
 namespace App\Http\Services;
 
 
+use App\Models\AdminModel;
+
 class AdminService
 {
     /**
@@ -41,4 +43,18 @@ class AdminService
     {
         return \Session::get('Admin');
     }
+
+    /**
+     * 更新管理员登录信息
+     * @param $id
+     * @param $data
+     * @return int
+     */
+    public static function UpdateLoginInfo($admin, $data)
+    {
+        \Session::push('Admin', $admin);
+        return AdminModel::where('id', $admin->id)->update($data);
+    }
+
+
 }

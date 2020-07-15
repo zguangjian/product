@@ -11,12 +11,12 @@ class IndexController extends Controller
     //
     public function Index()
     {
-
+        return view('admin.index.index');
     }
 
     public function Welcome()
     {
-
+        return view('admin.index.welcome');
     }
 
 }

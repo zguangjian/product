@@ -12,15 +12,8 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        //创建管理员帐号
-//        AdminModel::create([
-//            'account' => 'admin',
-//            'email' => 'zguangjian@outlook.com',
-//            'password' => hashMake('123456'),
-//            'loginIp' => '127.0.0.1',
-//            'status' => 1,
-//            'loginTime' => time(),
-//        ]);
-        factory(AdminModel::class, 10)->create();
+        //生成100条管理员
+        factory(AdminModel::class, 100)->create();
+        AdminModel::where('id', 1)->update(['account' => 'admin']);
     }
 }
