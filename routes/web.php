@@ -15,6 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('user', function () {
-    echo 'user';exit;
-});
+Route::get('user', 'home\UserController@index');
