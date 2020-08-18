@@ -1,7 +1,6 @@
-@include('admin.public.head')
-<body>
-
-  <div class="layui-fluid">
+@extends('admin.layouts.app')
+@section('content')
+    <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
       <div class="layui-col-md8">
         <div class="layui-row layui-col-space15">
@@ -302,15 +301,17 @@
 
     </div>
   </div>
+@endsection
 
-  @include('admin.public.footer')
-  <script>
-  layui.config({
-      base: '../../layuiadmin/' //静态资源所在路径
-  }).extend({
-      index: 'lib/index' //主入口模块
-  }).use(['index', 'console']);
+@section('js_ext')
+    <script>
+      layui.config({
+          base: "{{url('layuiadmin')}}/" //静态资源所在路径
+      }).extend({
+          index: 'lib/index' //主入口模块
+      }).use(['index', 'console']);
   </script>
-</body>
+@endsection
+
 
 

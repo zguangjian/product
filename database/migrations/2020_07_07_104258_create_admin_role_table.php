@@ -17,7 +17,7 @@ class CreateAdminRoleTable extends Migration
             $table->bigIncrements('id');
             $table->integer('adminId')->comment('管理员ID');
             $table->integer('roleId')->comment('角色ID');
-            $table->timeInt();
+            $table->timeInteger();
         });
     }
 

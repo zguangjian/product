@@ -13,7 +13,7 @@ class PublicController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function Login(Request $request)
+    public function login(Request $request)
     {
         if ($request->method() == 'POST') {
             $this->validate($request, [
@@ -23,14 +23,14 @@ class PublicController extends Controller
             ]);
             $admin = AdminModel::where('account', $request->get('account'))->first();
 
-            if ($admin->status == 1) {
+            if ($admin->status == 0) {
                 return responseJson('该账号已禁用', 0);
             }
 
-            if (!($password = hashCheck($request->get('password'), $admin->password))) {
+            if (($password = hashCheck($request->get('password'), $admin->password)) === false) {
                 return responseJson('密码错误', 0);
             }
-
+            /*更新信息*/
             AdminService::UpdateLoginInfo($admin, [
                 'password' => $password,
                 'loginTime' => time(),
@@ -38,7 +38,6 @@ class PublicController extends Controller
             ]);
             return responseJson('登录成功！', 1, ['url' => url()->route('admin-index')]);
         }
-
         return view('admin.public.login');
     }
 
@@ -47,7 +46,7 @@ class PublicController extends Controller
      * 退出登录
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function LoginOut()
+    public function loginOut()
     {
         AdminService::LoginOut();
         return redirect()->route('admin-login');

@@ -53,4 +53,15 @@ function hashCheck($str, $hashString = '')
     return false;
 }
 
+/**
+ * 管理员信息
+ * @return mixed
+ */
+function admin()
+{
+    return Session::get('Admin');
+}
+
+
+
 

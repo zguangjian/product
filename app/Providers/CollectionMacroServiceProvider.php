@@ -26,7 +26,7 @@ class CollectionMacroServiceProvider extends ServiceProvider
     {
         //
         //注册 更新字段
-        Blueprint::macro("timeInt", function () {
+        Blueprint::macro("timeInteger", function () {
             $this->integer('created_at')->nullable();
             $this->integer('updated_at')->nullable();
         });

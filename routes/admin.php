@@ -8,18 +8,26 @@
  */
 
 Route::group(['prefix' => 'public'], function () {
-    Route::match(['get', 'post'], 'login', 'PublicController@Login')->name('admin-login');
-    Route::get('out', 'PublicController@out');
+    Route::match(['get', 'post'], 'login', 'PublicController@login')->name('admin-login');
+    Route::get('out', 'PublicController@loginOut')->name('admin-login-out');
 });
 Route::group(['middleware' => ['admin.Login', 'admin.Auth']], function () {
-    Route::get('/', 'IndexController@Index')->name('admin-index');
-    Route::get('welcome', 'IndexController@Welcome')->name('admin-welcome');
-
+    Route::get('/', 'IndexController@index')->name('admin-index');
+    Route::get('welcome', 'IndexController@welcome')->name('admin-welcome');
+    /*菜单*/
     Route::group(['prefix' => 'menu'], function () {
-        Route::get('index', 'MenuIndexController@Index')->name('menu-index');
-        Route::match(['get', 'post'], 'add', 'MenuIndexController@Add')->name('menu-add');
-        Route::match(['get', 'post'], 'edit/{id}', 'MenuIndexController@Edit')->name('menu-edit');
-        Route::get('del/{id}', 'MenuIndexController@Del')->name('menu-del');
+        Route::get('index', 'MenuController@index')->name('menu-index');
+        Route::match(['get', 'post'], 'create', 'MenuController@create')->name('menu-create');
+        Route::match(['get', 'post'], 'update/{id}', 'MenuController@update')->name('menu-update');
+        Route::get('destroy/{id}', 'MenuController@destroy')->name('menu-destroy');
+    });
+    /*管理员*/
+    Route::group(['prefix' => 'manager'], function () {
+
+    });
+    /*网站配置*/
+    Route::group(['prefix' => 'setting'], function () {
+
     });
 
 });

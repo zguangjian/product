@@ -15,9 +15,10 @@ class CreatePermissionsTable extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->tinyInteger('mid')->comment('菜单id');
             $table->string('name')->default('')->comment('菜单名称');
             $table->string('url')->default('')->comment('菜单链接');
-            $table->timeInt();
+            $table->timeInteger();
         });
     }
 

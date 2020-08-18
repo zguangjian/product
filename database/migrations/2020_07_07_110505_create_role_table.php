@@ -18,7 +18,7 @@ class CreateRoleTable extends Migration
             $table->string('name', '64')->comment('角色名');
             $table->text('content')->comment('描述');
             $table->tinyInteger('status')->default(1)->comment('状态  0关闭 1开启');
-            $table->timeInt();
+            $table->timeInteger();
         });
     }
 

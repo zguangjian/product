@@ -32,7 +32,8 @@ class AdminService
      */
     public static function LoginOut()
     {
-        return \Session::decrement('Admin');
+
+        return \Session::forget('Admin');
     }
 
     /**
@@ -52,8 +53,8 @@ class AdminService
      */
     public static function UpdateLoginInfo($admin, $data)
     {
-        \Session::push('Admin', $admin);
-        return AdminModel::where('id', $admin->id)->update($data);
+        \Session::put('Admin', $admin);
+        return $admin->update($data);;
     }
 
 

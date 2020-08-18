@@ -14,6 +14,6 @@ class AdminSeeder extends Seeder
     {
         //生成100条管理员
         factory(AdminModel::class, 100)->create();
-        AdminModel::where('id', 1)->update(['account' => 'admin']);
+        AdminModel::where('id', 1)->update(['account' => 'admin', 'status' => 1]);
     }
 }

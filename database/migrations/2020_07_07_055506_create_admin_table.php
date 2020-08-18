@@ -21,7 +21,7 @@ class CreateAdminTable extends Migration
             $table->string('loginIp', 32)->comment('登录ip');
             $table->tinyInteger('status')->default(1)->comment('状态 1正常 0禁用');
             $table->integer('loginTime')->comment('登录时间');
-            $table->timeInt();
+            $table->timeInteger();
         });
     }
 
