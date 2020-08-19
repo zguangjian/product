@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\AdminModel;
+use App\Models\Admin;
 
 class AdminSeeder extends Seeder
 {
@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
     public function run()
     {
         //生成100条管理员
-        factory(AdminModel::class, 100)->create();
-        AdminModel::where('id', 1)->update(['account' => 'admin', 'status' => 1]);
+        factory(Admin::class, 100)->create();
+        Admin::where('id', 1)->update(['account' => 'admin', 'status' => 1]);
     }
 }

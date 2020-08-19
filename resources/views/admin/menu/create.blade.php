@@ -11,7 +11,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">单行选择框</label>
                 <div class="layui-input-block">
-                  <select name="interest" lay-filter="aihao">
+                  <select name="parent_id" lay-filter="aihao">
                     <option value=""></option>
                     <option value="0">写作</option>
                     <option value="1" selected="">阅读</option>
@@ -28,11 +28,19 @@
             </div>
           </div>
           <div class="layui-form-item">
-            <label class="layui-form-label">路由地址</label>
-            <div class="layui-input-block">
-              <input type="text" name="url" lay-verify="required" placeholder="路由地址" autocomplete="off" class="layui-input">
+            <div class="layui-inline">
+              <label class="layui-form-label">路由地址</label>
+              <div class="layui-input-inline">
+                <select name="url" lay-verify="required" lay-search="">
+                  <option value="">直接选择或搜索选择</option>
+                    @foreach(adminMenu() as $route)
+                        <option value="{{$route}}">{{$route}}</option>
+                    @endforeach
+                </select>
+              </div>
             </div>
           </div>
+
             <div class="layui-form-item">
                 <label class="layui-form-label">icon</label>
                 <div class="layui-input-block">
@@ -118,8 +126,13 @@
 
           /* 监听提交 */
           form.on('submit(component-form-demo1)', function (data) {
-              parent.layer.alert(JSON.stringify(data.field), {
-                  title: '最终的提交信息'
+              $.ajax({
+                  type: 'post',
+                  data: data.field,
+                  dataType: 'json',
+                  success: function (data) {
+                      console.log(data);
+                  }
               })
               return false;
           });

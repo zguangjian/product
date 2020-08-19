@@ -23,7 +23,10 @@ Route::group(['middleware' => ['admin.Login', 'admin.Auth']], function () {
     });
     /*管理员*/
     Route::group(['prefix' => 'manager'], function () {
-
+        Route::get('index', 'ManageController@index')->name('manager-index');
+        Route::match(['get', 'post'], 'create', 'ManageController@create')->name('manager-create');
+        Route::match(['get', 'post'], 'update/{id}', 'ManageController@update')->name('manager-update');
+        Route::get('destroy/{id}', 'ManageController@destroy')->name('manager-destroy');
     });
     /*网站配置*/
     Route::group(['prefix' => 'setting'], function () {

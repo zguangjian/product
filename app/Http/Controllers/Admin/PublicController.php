@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Services\AdminService;
-use App\Models\AdminModel;
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -21,7 +21,7 @@ class PublicController extends Controller
                 'password' => 'required|min:6|max:16',
                 'captcha' => 'required|captcha',
             ]);
-            $admin = AdminModel::where('account', $request->get('account'))->first();
+            $admin = Admin::where('account', $request->get('account'))->first();
 
             if ($admin->status == 0) {
                 return responseJson('该账号已禁用', 0);

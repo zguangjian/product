@@ -10,12 +10,12 @@
 namespace App\Http\Services;
 
 
-use App\Models\MenuModel;
+use App\Models\Menu;
 
 class AdminMenuService
 {
     public static function getMenuList()
     {
-        $list = MenuModel::all();
+        $list = Menu::all();
     }
 }

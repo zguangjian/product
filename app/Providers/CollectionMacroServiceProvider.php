@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Menu;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,6 +30,10 @@ class CollectionMacroServiceProvider extends ServiceProvider
         Blueprint::macro("timeInteger", function () {
             $this->integer('created_at')->nullable();
             $this->integer('updated_at')->nullable();
+        });
+
+        Menu::macro('create', function ($data) {
+                dd($data);
         });
 
 

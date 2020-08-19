@@ -10,7 +10,7 @@
 namespace App\Http\Services;
 
 
-use App\Models\AdminModel;
+use App\Models\Admin;
 
 class AdminService
 {
