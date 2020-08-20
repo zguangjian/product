@@ -18,6 +18,7 @@ class MenuController extends Controller
         if ($request->ajax()) {
             return responseJson('ok', 0, Menu::all());
         }
+
         return view('admin.menu.index');
     }
 
@@ -30,13 +31,15 @@ class MenuController extends Controller
     {
         if ($request->method() == 'POST') {
             $this->validate($request, [
-                'name' => 'required|min:4|max:32|unique:menu',
-                'parent_id' => 'required|exists:menu,id',
+                'name' => 'required|unique:menu',
+                'parent_id' => 'required',
                 'url' => 'required',
                 'status' => 'required',
                 'sort' => 'required',
             ]);
-            Menu::create(['id' => 1]);
+
+            Menu::create($request->post());
+            return responseJson('操作成功');
         }
         return view('admin.menu.create');
     }

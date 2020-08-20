@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Hash;
  * @param array $data 数据
  * @return \Illuminate\Http\JsonResponse
  */
-function responseJson($msg = "", $code = 0, $data = [])
+function responseJson($msg = "ok", $code = 1, $data = [])
 {
     header('Access-Control-Allow-Origin:*');
     $time = time();
@@ -84,6 +84,10 @@ function adminMenu()
     return $list;
 }
 
+/**
+ * 随机ip
+ * @return string
+ */
 function ip()
 {
     $ip_long = array(
@@ -101,6 +105,85 @@ function ip()
     $rand_key = mt_rand(0, 9);
     return $ip = long2ip(mt_rand($ip_long[$rand_key][0], $ip_long[$rand_key][1]));
 }
+
+/**
+ * 读取文件json文件夹json文件
+ * @param $file
+ * @return mixed
+ */
+function fetchJson($file)
+{
+    return json_decode(file_get_contents("./json/$file"), true);
+}
+
+//获取所有子类
+function getChild($arr = [], $myId)
+{
+    $newArr = [];
+    if (is_array($arr)) {
+        foreach ($arr as $id => $a) {
+            if ($a['parent_id'] == $myId) {
+                $newArr[$id] = $a;
+            }
+        }
+    }
+    if (gettype($arr) == 'object') {
+        foreach ($arr as $id => $a) {
+            if ($a->parent_id == $myId) {
+                $newArr[$id] = $a;
+            }
+        }
+    }
+    return $newArr ? $newArr : false;
+}
+
+/**
+ * 生成树型结构数组
+ * @param int myID，表示获得这个ID下的所有子级
+ * @param int $maxLevel 最大获取层级,默认不限制
+ * @param int $level 当前层级,只在递归调用时使用,真实使用时不传入此参数
+ * @return array
+ */
+function getTreeArray($list = [], $myId, $maxLevel = 0, $level = 1)
+{
+    $returnArray = [];
+    $nbsp = "&nbsp;&nbsp;&nbsp;";
+    //一级数组
+    $children = getChild($list, $myId);
+    if (is_array($children)) {
+        foreach ($children as $child) {
+            $child['_level'] = $level;
+            $returnArray[$child['id']] = $child;
+            if ($maxLevel === 0 || ($maxLevel !== 0 && $maxLevel > $level)) {
+                $mLevel = $level + 1;
+                $returnArray[$child['id']]["children"] = getTreeArray($list, $child['id'], $maxLevel, $mLevel);
+            }
+        }
+    }
+    return $returnArray;
+}
+
+function getTreeObject($list, $myId, $maxLevel = 0, $level = 1)
+{
+    $returnObject = json_decode("{}");
+    $nbsp = "&nbsp;&nbsp;&nbsp;";
+    //一级数组
+    $children = getChild($list, $myId);
+    if (is_array($children)) {
+        foreach ($children as $child) {
+            $child->_level = $level;
+            $child->nbsp = copy_str($nbsp, $level);
+            $id = $child->id;
+            $returnObject->$id = $child;
+            if ($maxLevel === 0 || ($maxLevel !== 0 && $maxLevel > $level)) {
+                $mLevel = $level + 1;
+                $returnObject->$id->children = [getTreeArray($list, $child->id, $maxLevel, $mLevel)];
+            }
+        }
+    }
+    return $returnObject;
+}
+
 
 
 

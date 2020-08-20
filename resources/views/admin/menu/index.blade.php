@@ -14,9 +14,11 @@
     <script>
           layui.config({
               base: "{{url('layuiadmin')}}/" //静态资源所在路径
-          }).use(['treeTable'], function () {
-              var $ = layui.jquery;
-              var treeTable = layui.treeTable;
+          }).use(['treeTable', 'util'], function () {
+              var $ = layui.jquery,
+                  util = layui.util,
+                  treeTable = layui.treeTable;
+
 
               // 渲染树形表格
               var insTb = treeTable.render({
@@ -36,9 +38,17 @@
                       {type: 'checkbox'},
                       {field: 'name', title: '菜单名称', minWidth: 165},
                       {field: 'url', title: '菜单地址'},
-                      {field: 'status', title: '状态'},
-                      {title: '类型', templet: '<p>菜单</p>', align: 'center', width: 60},
-                      {field: 'created_at', title: '创建时间'},
+                      {
+                          title: '状态', templet: function (d) {
+                              return d.status == 0 ? '隐藏' : '显示';
+                          }
+                      },
+                      {
+                          title: '创建时间', templet: function (d) {
+                              console.log(d.created_at)
+                              return util.toDateString(d.created_at * 1000);
+                          }
+                      },
                       {align: 'center', toolbar: '#tbBar', title: '操作', width: 120}
                   ]],
                   style: 'margin-top:0;'

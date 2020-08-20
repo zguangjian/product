@@ -19,4 +19,5 @@ class BaseModel extends Model
     const UPDATED_AT = 'updated_at';
     //更新时间默认时间戳
     protected $dateFormat = 'U';
+
 }

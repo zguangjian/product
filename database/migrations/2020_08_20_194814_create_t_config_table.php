@@ -14,7 +14,7 @@ class CreateTConfigTable extends Migration {
 	{
 		Schema::create('config', function(Blueprint $table)
 		{
-			$table->bigInteger('id', true)->unsigned();
+			$table->increments('id');
 			$table->string('name', 16)->default('')->comment('配置名');
 			$table->text('val', 65535)->comment('配置内容json');
 			$table->string('content', 64)->nullable()->default('')->comment('描述');
