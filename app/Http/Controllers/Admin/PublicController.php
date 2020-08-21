@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Services\AdminService;
 use App\Models\Admin;
+use App\Models\Menu;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -38,6 +39,8 @@ class PublicController extends Controller
             ]);
             return responseJson('登录成功！', 1, ['url' => url()->route('admin-index')]);
         }
+
+        Menu::createAll([]);
         return view('admin.public.login');
     }
 

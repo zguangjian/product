@@ -71,11 +71,11 @@
                 <label class="layui-form-label">父级菜单</label>
                 <div class="layui-input-block">
                   <select name="parent_id" lay-filter="aihao">
-                    <option value="0">/</option>
+                    <option value="0" {{$menu->parend_id == 0 ?'selected': '' }}>/</option>
                       @foreach(\App\Models\Menu::parentMenu() as $value)
-                          <option value="{{$value['id']}}">{{$value['name']}}</option>
+                          <option value="{{$value['id']}}" {{$menu->parend_id == $value['id'] ? 'selected': '' }}>{{$value['name']}}</option>
                           @foreach($value['children'] as $v)
-                              <option value="{{$v['id']}}">{!!str_repeat('&nbsp;',$v['_level'] * 2)!!}{{$v['name']}}</option>
+                              <option value="{{$v['id']}}" {{$menu->parend_id == $v['id'] ? 'selected': '' }}>{!!str_repeat('&nbsp;',$v['_level'] * 2)!!}{{$v['name']}}</option>
                           @endforeach
                       @endforeach
                   </select>
@@ -84,7 +84,7 @@
           <div class="layui-form-item">
             <label class="layui-form-label">菜单名称</label>
             <div class="layui-input-block">
-              <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="菜单名称" class="layui-input">
+              <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="菜单名称" class="layui-input" value="{{$menu->name}}">
             </div>
           </div>
           <div class="layui-form-item">
@@ -94,7 +94,7 @@
                 <select name="url" lay-verify="" lay-search="">
                   <option value="">直接选择或搜索选择</option>
                     @foreach(adminMenu() as $route)
-                        <option value="{{$route}}">{{$route}}</option>
+                        <option value="{{$route}}"{{$route == $menu->url ? 'selected':''}}>{{$route}}</option>
                     @endforeach
                 </select>
               </div>
@@ -104,10 +104,10 @@
             <div class="layui-form-item">
                         <label for="" class="layui-form-label">图标</label>
                         <div class="layui-input-inline">
-                            <input class="layui-input" type="hidden" name="icons">
+                            <input class="layui-input" type="hidden" name="icons" value="{{$menu->icons}}">
                         </div>
                         <div class="layui-form-mid layui-word-aux" id="icon_box">
-                            <i class="layui-icon"></i>
+                            <i class="layui-icon {{$menu->icons}}"></i>
                         </div>
                         <div class="layui-form-mid layui-word-aux">
                             <button type="button" class="layui-btn layui-btn-xs" onclick="showIconsBox()">选择图标</button>
@@ -116,21 +116,21 @@
              <div class="layui-form-item">
                 <label class="layui-form-label">排序</label>
                 <div class="layui-input-block">
-                  <input type="text" name="sort" lay-verify="number" autocomplete="off" placeholder="排序" class="layui-input" value="999">
+                  <input type="text" name="sort" lay-verify="number" autocomplete="off" placeholder="排序" class="layui-input" value="{{$menu->sort}}">
                 </div>
             </div>
           <div class="layui-form-item">
             <label class="layui-form-label">状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="1" title="显示" checked>
-                <input type="radio" name="status" value="0" title="隐藏">
+                <input type="radio" name="status" value="1" title="显示" {{$menu->status == 1 ? 'checked':''}}>
+                <input type="radio" name="status" value="0" title="隐藏" {{$menu->status == 0 ? 'checked':''}}>
             </div>
           </div>
             <input type="hidden" name="status" value="1">
           <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">描述</label>
             <div class="layui-input-block">
-              <textarea name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+              <textarea name="content" placeholder="请输入内容" class="layui-textarea">{{$menu->content}}</textarea>
             </div>
           </div>
           <div class="layui-form-item layui-layout-admin">

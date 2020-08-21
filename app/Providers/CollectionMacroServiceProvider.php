@@ -2,9 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\BaseModel;
 use App\Models\Menu;
+use App\Models\Permissions;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Traits\Macroable;
 
 class CollectionMacroServiceProvider extends ServiceProvider
 {
@@ -31,11 +36,6 @@ class CollectionMacroServiceProvider extends ServiceProvider
             $this->integer('created_at')->nullable();
             $this->integer('updated_at')->nullable();
         });
-
-        Menu::macro('create', function ($data) {
-                dd($data);
-        });
-
 
     }
 }

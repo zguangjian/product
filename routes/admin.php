@@ -18,8 +18,8 @@ Route::group(['middleware' => ['admin.Login', 'admin.Auth']], function () {
     Route::group(['prefix' => 'menu'], function () {
         Route::get('index', 'MenuController@index')->name('menu-index');
         Route::match(['get', 'post'], 'create', 'MenuController@create')->name('menu-create');
-        Route::match(['get', 'post'], 'update/{id}', 'MenuController@update')->name('menu-update');
-        Route::get('destroy/{id}', 'MenuController@destroy')->name('menu-destroy');
+        Route::match(['get', 'post'], 'update/{id?}', 'MenuController@update')->name('menu-update');
+        Route::get('destroy', 'MenuController@destroy')->name('menu-destroy');
     });
     /*管理员*/
     Route::group(['prefix' => 'manager'], function () {

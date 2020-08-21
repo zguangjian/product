@@ -162,29 +162,3 @@ function getTreeArray($list = [], $myId, $maxLevel = 0, $level = 1)
     }
     return $returnArray;
 }
-
-function getTreeObject($list, $myId, $maxLevel = 0, $level = 1)
-{
-    $returnObject = json_decode("{}");
-    $nbsp = "&nbsp;&nbsp;&nbsp;";
-    //一级数组
-    $children = getChild($list, $myId);
-    if (is_array($children)) {
-        foreach ($children as $child) {
-            $child->_level = $level;
-            $child->nbsp = copy_str($nbsp, $level);
-            $id = $child->id;
-            $returnObject->$id = $child;
-            if ($maxLevel === 0 || ($maxLevel !== 0 && $maxLevel > $level)) {
-                $mLevel = $level + 1;
-                $returnObject->$id->children = [getTreeArray($list, $child->id, $maxLevel, $mLevel)];
-            }
-        }
-    }
-    return $returnObject;
-}
-
-
-
-
-

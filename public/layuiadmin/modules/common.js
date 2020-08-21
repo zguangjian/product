@@ -59,7 +59,7 @@ function chioceIcon(obj) {
     var icon_id = $(obj).data('id');
     var name = $(obj).data('class')
     $("input[name='icons']").val(name);
-    $("#icon_box").html('<i class="layui-icon ' + $(obj).data('class') + '"></i> ' + $(obj).data('name'));
+    $("#icon_box").html('<i class="layui-icon ' + $(obj).data('class') + '"></i> ');
     layer.closeAll();
 }
 

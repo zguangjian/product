@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateTAdminRoleTable extends Migration {
+class CreateTPermissionsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,12 @@ class CreateTAdminRoleTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('admin_role', function(Blueprint $table)
+		Schema::create('permissions', function(Blueprint $table)
 		{
-			$table->bigInteger('id', true)->unsigned();
-			$table->integer('adminId')->comment('管理员ID');
-			$table->integer('roleId')->comment('角色ID');
+			$table->increments('id');
+			$table->boolean('mid')->comment('菜单id');
+			$table->string('name')->default('')->comment('菜单名称');
+			$table->string('url')->nullable()->default('')->comment('菜单链接');
 			$table->integer('created_at')->nullable();
 			$table->integer('updated_at')->nullable();
 		});
@@ -30,7 +31,7 @@ class CreateTAdminRoleTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('t_admin_role');
+		Schema::drop('t_permissions');
 	}
 
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\Permissions
@@ -26,5 +25,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Permissions extends BaseModel
 {
+    protected $fillable = ['mid', 'name', 'url'];
+
     //
+    public function belongsToMenu()
+    {
+        return $this->belongsTo(Menu::class, 'id', 'mid');
+    }
 }

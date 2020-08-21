@@ -53,6 +53,35 @@
                   ]],
                   style: 'margin-top:0;'
               });
+
+              // 工具列点击事件
+              treeTable.on('tool(demoTreeTb)', function (obj) {
+                  var event = obj.event;
+
+                  if (event === 'del') {
+
+                      layer.confirm('是否要删除信息!', {
+                          btn: ['确定', '取消']
+                      }, function () {
+                          layer.load();
+                          $.ajax({
+                              type: 'get',
+                              url: "{{route('menu-destroy')}}",
+                              data: {id: obj.data.id},
+                              success: function (data) {
+                                  layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                                      obj.del();
+                                  });
+                              }
+                          })
+                          layer.closeAll();  //关闭消息框
+
+                      })
+
+                  } else if (event === 'edit') {
+                      window.location.href = "{{route('menu-update')}}/" + obj.data.id;
+                  }
+              });
               // 头部工具栏点击事件
               treeTable.on('toolbar(demoTreeTb)', function (obj) {
                   switch (obj.event) {
@@ -64,14 +93,29 @@
                           JSON.stringify(insTb.checkStatus().map(function (d) {
                               ids.push(d.id)
                           }), null, 3)
+                          layer.confirm('是否要删除信息!', {
+                              btn: ['确定', '取消']
+                          }, function () {
+                              layer.load();
+                              $.ajax({
+                                  type: 'get',
+                                  url: "{{route('menu-destroy')}}",
+                                  data: {id: ids},
+                                  success: function (data) {
+                                      layer.msg(data.msg, {icon: 1, time: 2000});
+                                  }
+                              })
+                              layer.closeAll();  //关闭消息框
 
-                          console.log(ids);
+                          })
+
                           break;
                       case 'update':
-                          layer.msg('编辑');
+
                           break;
+
                       case 'LAYTABLE_TIPS':
-                          layer.msg('提示');
+
                           break;
                   }
               });

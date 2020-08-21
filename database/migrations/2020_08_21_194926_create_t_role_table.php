@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateTPermissionsTable extends Migration {
+class CreateTRoleTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,12 +12,12 @@ class CreateTPermissionsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('permissions', function(Blueprint $table)
+		Schema::create('role', function(Blueprint $table)
 		{
-			$table->bigInteger('id', true)->unsigned();
-			$table->boolean('mid')->comment('菜单id');
-			$table->string('name')->default('')->comment('菜单名称');
-			$table->string('url')->default('')->comment('菜单链接');
+			$table->increments('id');
+			$table->string('name', 64)->comment('角色名');
+			$table->text('content', 65535)->comment('描述');
+			$table->boolean('status')->default(1)->comment('状态  0关闭 1开启');
 			$table->integer('created_at')->nullable();
 			$table->integer('updated_at')->nullable();
 		});
@@ -31,7 +31,7 @@ class CreateTPermissionsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('t_permissions');
+		Schema::drop('t_role');
 	}
 
 }
