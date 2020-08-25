@@ -25,32 +25,44 @@
                   elem: '#demoTreeTb',
                   url: "{{url()->current()}}",
                   toolbar: 'default',
+                  height: 'full-200',
+                  open: true,  // 默认展开
                   tree: {
                       iconIndex: 2,
                       isPidData: true,
                       idName: 'id',
                       pidName: 'parent_id',
-                      arrowType: 'arrow2',
-                      getIcon: 'ew-tree-icon-style2'
+                      // arrowType: 'arrow2',
+                      // getIcon: 'ew-tree-icon-style2'
                   },
-                  cols: [[
-                      {type: 'numbers'},
-                      {type: 'checkbox'},
-                      {field: 'name', title: '菜单名称', minWidth: 165},
-                      {field: 'url', title: '菜单地址'},
-                      {
-                          title: '状态', templet: function (d) {
-                              return d.status == 0 ? '隐藏' : '显示';
-                          }
-                      },
-                      {
-                          title: '创建时间', templet: function (d) {
-                              console.log(d.created_at)
-                              return util.toDateString(d.created_at * 1000);
-                          }
-                      },
-                      {align: 'center', toolbar: '#tbBar', title: '操作', width: 120}
-                  ]],
+                  cols: [
+                      [
+                          {title: '只是想演示一个三级表头', colspan: 9},
+                      ],
+                      [
+                          {title: '只是想演示一个多级表头', colspan: 4},
+                          {field: 'menuUrl', title: '菜单地址', rowspan: 2},
+                          {title: '这是一个二级表头', colspan: 4}
+                      ],
+                      [
+                          {type: 'numbers'},
+                          {type: 'checkbox'},
+                          {field: 'name', title: '菜单名称', minWidth: 165},
+                          {field: 'url', title: '菜单地址'},
+                          {
+                              title: '状态', templet: function (d) {
+                                  return d.status == 0 ? '隐藏' : '显示';
+                              }
+                          },
+                          {
+                              title: '创建时间', templet: function (d) {
+                                  console.log(d.created_at)
+                                  return util.toDateString(d.created_at * 1000);
+                              }
+                          },
+                          {align: 'center', toolbar: '#tbBar', title: '操作', width: 120}
+                      ]
+                  ],
                   style: 'margin-top:0;'
               });
 
@@ -90,9 +102,18 @@
                           break;
                       case 'delete':
                           let ids = new Array();
+                          layer.alert('<pre>' + JSON.stringify(insTb.checkStatus().map(function (d) {
+                              return {
+                                  authorityName: d.name,
+                                  authorityId: d.id,
+                                  LAY_INDETERMINATE: d.LAY_INDETERMINATE
+                              };
+                          }), null, 3) + '</pre>');
                           JSON.stringify(insTb.checkStatus().map(function (d) {
                               ids.push(d.id)
                           }), null, 3)
+                          console.log(ids);
+                          return false;
                           layer.confirm('是否要删除信息!', {
                               btn: ['确定', '取消']
                           }, function () {
@@ -102,7 +123,9 @@
                                   url: "{{route('menu-destroy')}}",
                                   data: {id: ids},
                                   success: function (data) {
-                                      layer.msg(data.msg, {icon: 1, time: 2000});
+                                      layer.msg(data.msg, {icon: 1, time: 2000}, function () {
+                                          insTb.refresh()
+                                      });
                                   }
                               })
                               layer.closeAll();  //关闭消息框

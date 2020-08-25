@@ -16,3 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('user', 'Home\UserController@index');
+Route::get('macro', function () {
+    \App\Models\Permissions::createAll([]);
+});

@@ -39,8 +39,6 @@ class PublicController extends Controller
             ]);
             return responseJson('登录成功！', 1, ['url' => url()->route('admin-index')]);
         }
-
-        Menu::createAll([]);
         return view('admin.public.login');
     }
 
