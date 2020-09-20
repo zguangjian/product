@@ -26,11 +26,18 @@ Route::group(['middleware' => ['admin.Login', 'admin.Auth']], function () {
         Route::get('index', 'ManageController@index')->name('manager-index');
         Route::match(['get', 'post'], 'create', 'ManageController@create')->name('manager-create');
         Route::match(['get', 'post'], 'update/{id}', 'ManageController@update')->name('manager-update');
-        Route::get('destroy/{id}', 'ManageController@destroy')->name('manager-destroy');
+        Route::get('destroy', 'ManageController@destroy')->name('manager-destroy');
     });
     /*网站配置*/
     Route::group(['prefix' => 'setting'], function () {
 
+    });
+
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('index', 'AdminController@index')->name('admin-list');
+        Route::match(['get', 'post'], 'create', 'AdminController@create')->name('admin-create');
+        Route::match(['get', 'post'], 'update/{id}', 'AdminController@update')->name('admin-update');
+        Route::get('destroy', 'AdminController@destroy')->name('admin-destroy');
     });
 
 });

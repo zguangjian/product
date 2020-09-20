@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Services\AdminService;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Routing\Router;
 
 class IndexController extends Controller
 {
     //
-    public function index(Router $route)
+    public function index()
     {
         return view('admin.index.index');
     }

@@ -6,10 +6,10 @@
               </a>
               <dl class="layui-nav-child">
                 <dd data-name="console" class="layui-this">
-                  <a lay-href="{{url()->route('menu-index')}}">菜单</a>
+                  <a lay-href="{{route('menu-index')}}">菜单</a>
                 </dd>
                 <dd data-name="console">
-                  <a lay-href="home/homepage1.html">主页一</a>
+                  <a lay-href="{{route('admin-list')}}">admin</a>
                 </dd>
                 <dd data-name="console">
                   <a lay-href="home/homepage2.html">主页二</a>

@@ -37,14 +37,6 @@
                   },
                   cols: [
                       [
-                          {title: '只是想演示一个三级表头', colspan: 9},
-                      ],
-                      [
-                          {title: '只是想演示一个多级表头', colspan: 4},
-                          {field: 'menuUrl', title: '菜单地址', rowspan: 2},
-                          {title: '这是一个二级表头', colspan: 4}
-                      ],
-                      [
                           {type: 'numbers'},
                           {type: 'checkbox'},
                           {field: 'name', title: '菜单名称', minWidth: 165},
@@ -69,9 +61,7 @@
               // 工具列点击事件
               treeTable.on('tool(demoTreeTb)', function (obj) {
                   var event = obj.event;
-
                   if (event === 'del') {
-
                       layer.confirm('是否要删除信息!', {
                           btn: ['确定', '取消']
                       }, function () {
@@ -102,18 +92,9 @@
                           break;
                       case 'delete':
                           let ids = new Array();
-                          layer.alert('<pre>' + JSON.stringify(insTb.checkStatus().map(function (d) {
-                              return {
-                                  authorityName: d.name,
-                                  authorityId: d.id,
-                                  LAY_INDETERMINATE: d.LAY_INDETERMINATE
-                              };
-                          }), null, 3) + '</pre>');
                           JSON.stringify(insTb.checkStatus().map(function (d) {
                               ids.push(d.id)
                           }), null, 3)
-                          console.log(ids);
-                          return false;
                           layer.confirm('是否要删除信息!', {
                               btn: ['确定', '取消']
                           }, function () {

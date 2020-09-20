@@ -61,6 +61,4 @@ class Menu extends BaseModel
         $menuTableList = Menu::orderBy("sort")->get()->toArray();
         return getTreeArray($menuTableList, $parent_id, 2);
     }
-
-
 }

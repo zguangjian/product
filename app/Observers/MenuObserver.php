@@ -5,6 +5,7 @@ namespace App\Observers;
 
 use App\Models\Menu;
 use App\Models\Permissions;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 class MenuObserver
@@ -13,8 +14,8 @@ class MenuObserver
     /**
      * Handle the menu "created" event.
      *
-     * @param \App\Menu $menu
-     * @return void
+     * @param Menu $menu
+     * @return Permissions|Model
      */
     public function created(Menu $menu)
     {
@@ -28,8 +29,8 @@ class MenuObserver
     /**
      * Handle the menu "updated" event.
      *
-     * @param \App\Menu $menu
-     * @return void
+     * @param Menu $menu
+     * @return int
      */
     public function updated(Menu $menu)
     {
@@ -42,7 +43,7 @@ class MenuObserver
     /**
      * Handle the menu "deleted" event.
      *
-     * @param \App\Menu $menu
+     * @param Menu $menu
      * @return void
      */
     public function deleted(Menu $menu)
@@ -53,8 +54,7 @@ class MenuObserver
     /**
      * Handle the menu "restored" event.
      *
-     * @param \App\Menu $menu
-     * @return void
+     * @param Menu $menu
      */
     public function restored(Menu $menu)
     {
@@ -64,8 +64,7 @@ class MenuObserver
     /**
      * Handle the menu "force deleted" event.
      *
-     * @param \App\Menu $menu
-     * @return void
+     * @param Menu $menu
      */
     public function forceDeleted(Menu $menu)
     {

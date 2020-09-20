@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Common\LaraveCache;
-use App\Http\Common\LaravelCache;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AdminController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +14,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-
-        $data = LaravelCache::AdminRole()->getCacheKey();
-        dd($data);
+        //
     }
 
     /**
