@@ -16,6 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('user', 'Home\UserController@index');
-Route::get('macro', function () {
-    \App\Models\Permissions::createAll([]);
+Route::get('test-broadcast', function(){
+    broadcast(new \App\Events\ExampleEvent);
 });

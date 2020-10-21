@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Created by PhpStorm.
  * User: zguangjian
@@ -7,16 +8,17 @@
  * Email: zguangjian@outlook.com
  */
 
+use App\Http\Communal\RedisManage;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
-
-/*自定义函数*/
+use App\Models\Menu;
 
 /**
  * ajax数据返回
  * @param string $msg 信息
  * @param int $code 0失败 1成功
  * @param array $data 数据
- * @return \Illuminate\Http\JsonResponse
+ * @return JsonResponse
  */
 function responseJson($msg = "ok", $code = 1, $data = [])
 {
@@ -24,6 +26,17 @@ function responseJson($msg = "ok", $code = 1, $data = [])
     $time = time();
     return response()->json(compact('code', 'msg', 'data', 'time'));
 }
+
+/**
+ * @param $msg
+ * @param $code
+ * @throws Exception
+ */
+function ajaxException($msg = "", $code = 0)
+{
+    throw new Exception($msg, $code);
+}
+
 
 /**
  * 哈希加密字符串
@@ -68,6 +81,7 @@ function admin()
  */
 function adminMenu()
 {
+    $list = [];
     foreach (app('router')->getRoutes() as $route) {
         /*筛选后台路由*/
         if (in_array('admin.Login', $route->gatherMiddleware())) {
@@ -88,7 +102,7 @@ function adminMenu()
  * 随机ip
  * @return string
  */
-function ip()
+function roundIp()
 {
     $ip_long = array(
         array('607649792', '608174079'), // 36.56.0.0-36.63.255.255
@@ -110,14 +124,23 @@ function ip()
  * 读取文件json文件夹json文件
  * @param $file
  * @return mixed
+ * @throws Exception
  */
-function fetchJson($file)
+function readJson($file)
 {
+    if (file_exists($file)) {
+        ajaxException('文件不存在');
+    }
     return json_decode(file_get_contents("./json/$file"), true);
 }
 
-//获取所有子类
-function getChild($arr = [], $myId)
+/**
+ * 获取所有子类
+ * @param array $arr
+ * @param $myId
+ * @return array|bool
+ */
+function getChild($arr, $myId)
 {
     $newArr = [];
     if (is_array($arr)) {
@@ -139,15 +162,15 @@ function getChild($arr = [], $myId)
 
 /**
  * 生成树型结构数组
- * @param int myID，表示获得这个ID下的所有子级
+ * @param $list
+ * @param $myId
  * @param int $maxLevel 最大获取层级,默认不限制
  * @param int $level 当前层级,只在递归调用时使用,真实使用时不传入此参数
  * @return array
  */
-function getTreeArray($list = [], $myId, $maxLevel = 0, $level = 1)
+function getTreeArray($list, $myId, $maxLevel = 0, $level = 1)
 {
     $returnArray = [];
-    $nbsp = "&nbsp;&nbsp;&nbsp;";
     //一级数组
     $children = getChild($list, $myId);
     if (is_array($children)) {
@@ -161,4 +184,28 @@ function getTreeArray($list = [], $myId, $maxLevel = 0, $level = 1)
         }
     }
     return $returnArray;
+}
+
+/**
+ * 菜单
+ * @return mixed
+ */
+function menu()
+{
+    if ($menu = RedisManage::menu()->getCacheData()) {
+        return json_decode($menu, true);
+    }
+    $menuList = menuList();
+    return RedisManage::menu()->setCacheData(json_encode($menuList), function () use ($menuList) {
+        return $menuList;
+    });
+
+}
+
+/**
+ * @return array
+ */
+function menuList()
+{
+    return getTreeArray(Menu::all()->toArray(), 0, 4);
 }

@@ -2,17 +2,25 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Communal\RedisManage;
 use App\Http\Services\AdminService;
 use App\Models\Admin;
-use App\Models\Menu;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Redis\RedisManager;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
+use Session;
 
 class PublicController extends Controller
 {
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|JsonResponse|View
+     * @throws ValidationException
      */
     public function login(Request $request)
     {
@@ -22,7 +30,7 @@ class PublicController extends Controller
                 'password' => 'required|min:6|max:16',
                 'captcha' => 'required|captcha',
             ]);
-            $admin = Admin::where('account', $request->get('account'))->first();
+            $admin = Admin::where(['account' => $request->get('account')])->first();
 
             if ($admin->status == 0) {
                 return responseJson('该账号已禁用', 0);
@@ -32,11 +40,12 @@ class PublicController extends Controller
                 return responseJson('密码错误', 0);
             }
             /*更新信息*/
-            AdminService::UpdateLoginInfo($admin, [
+            $admin->update([
                 'password' => $password,
                 'loginTime' => time(),
                 'loginIp' => request()->ip(),
             ]);
+            Session::put('Admin', $admin);
             return responseJson('登录成功！', 1, ['url' => url()->route('admin-index')]);
         }
         return view('admin.public.login');
@@ -44,10 +53,9 @@ class PublicController extends Controller
 
 
     /**
-     * 退出登录
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function loginOut()
+    protected function loginOut()
     {
         AdminService::LoginOut();
         return redirect()->route('admin-login');

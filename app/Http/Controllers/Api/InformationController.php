@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use App\Http\Communal\RedisManage;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 
 class InformationController extends Controller
 {
     /**
      * 获取icons数据接口
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
+     * @throws \Exception
      */
     public function icons()
     {
-        return responseJson('ok', 1, ['icons' => fetchJson('icons.json')]);
+        return responseJson('ok', 1, ['icons' => readJson('/json/icons.json')]);
     }
 }
+

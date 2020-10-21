@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Exception;
 use App\Models\Menu;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\JsonResponse as JsonResponseAlias;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
-use Illuminate\View\View as ViewAlias;
+use Illuminate\View\View;
 
 class MenuController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @param Request $request
-     * @return Factory|JsonResponseAlias|ViewAlias
+     * @return Factory|JsonResponse|Response|View
      */
     public function index(Request $request)
     {
@@ -28,8 +28,10 @@ class MenuController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
      * @param Request $request
-     * @return Factory|JsonResponseAlias|ViewAlias
+     * @return Factory|JsonResponse|Response|View
      * @throws ValidationException
      */
     public function create(Request $request)
@@ -55,7 +57,7 @@ class MenuController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Response
+     * @return void
      */
     public function store(Request $request)
     {
@@ -66,7 +68,7 @@ class MenuController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return Response
+     * @return void
      */
     public function show($id)
     {
@@ -77,7 +79,7 @@ class MenuController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return Response
+     * @return void
      */
     public function edit($id)
     {
@@ -85,10 +87,11 @@ class MenuController extends Controller
     }
 
     /**
-     *  Update the specified resource in storage.
+     * Update the specified resource in storage.
+     *
      * @param Request $request
-     * @param $id
-     * @return Factory|JsonResponseAlias|ViewAlias
+     * @param int $id
+     * @return Factory|JsonResponse|View
      * @throws ValidationException
      */
     public function update(Request $request, $id)
@@ -113,7 +116,7 @@ class MenuController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Request $request
-     * @return JsonResponseAlias
+     * @return JsonResponse|Response
      * @throws ValidationException
      */
     public function destroy(Request $request)
@@ -121,15 +124,24 @@ class MenuController extends Controller
         $this->validate($request, [
             'id' => 'required'
         ]);
-
-
-
-        try {
-            Menu::destroy($request->get('id'));
-        } catch (Exception $exception) {
-
+        $idList = [];
+        //获取子类菜单
+        if (gettype($request->get('id')) == 'string') {
+            array_push($idList, $request->get('id'));
+            $menuList = Menu::parentMenu($request->get('id'));
+            foreach ($menuList as $value) {
+                array_push($idList, $value['id']);
+                if (count($value['children']) > 0) {
+                    foreach ($value['children'] as $child) {
+                        array_push($idList, $child['id']);
+                    }
+                }
+            }
+        } else {
+            $idList = array_merge($idList, $request->get('id'));
         }
-
+        //删除
+        Menu::destroy($idList);
         return responseJson('删除成功');
     }
 }
