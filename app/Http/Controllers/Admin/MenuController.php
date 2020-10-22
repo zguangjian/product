@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Communal\CacheManage;
 use App\Models\Menu;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
@@ -25,6 +26,19 @@ class MenuController extends Controller
             return responseJson('ok', 0, Menu::all());
         }
         return view('admin.menu.index');
+    }
+
+    public function ajax(Request $request)
+    {
+        return responseJson('ok', 0, menu());
+    }
+
+    private function getChildren($children)
+    {
+        $list = [];
+        foreach ($children as $value) {
+
+        }
     }
 
     /**
@@ -54,39 +68,6 @@ class MenuController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return void
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return void
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return void
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param Request $request
@@ -99,7 +80,7 @@ class MenuController extends Controller
         $menu = Menu::find($id);
         if ($request->method() == 'POST') {
             $this->validate($request, [
-                'name' => "required|unique:menu,name,$id",
+                'name' => "required|unique:menu,name,$id,id",
                 'parent_id' => 'required',
                 'status' => 'required',
                 'sort' => 'required',

@@ -15,18 +15,33 @@ use Illuminate\Support\Facades\Cache;
  * Class CacheManage
  * @package App\Http\Communal
  * @method static CacheManage user()
+ * @method static CacheManage menu()
  */
 class CacheManage
 {
+    /**
+     * @var
+     */
     private $method;
+    /**
+     * @var
+     */
+    private $param;
+
+    /**
+     * @var mixed
+     */
+    private $id;
 
     /**
      * CacheManage constructor.
      * @param $method
      */
-    public function __construct($method)
+    public function __construct($method, $param)
     {
         $this->method = $method;
+        $this->param = $param;
+        $this->id = current($param);
     }
 
     /**
@@ -36,49 +51,47 @@ class CacheManage
      */
     public static function __callStatic($method, $param)
     {
-        return new self($method);
+        return new self($method, $param);
     }
 
 
     /**
-     * @param $key
      * @return string
      */
-    public function getCacheKey($key)
+    public function getCacheKey()
     {
-        return "Cache__" . $this->method . "__" . $key;
+        return "Cache__" . $this->method . (empty($this->id) ? "" : ("__" . array_unshift($this->param)));
     }
 
     /**
-     * @param $key
      * @return mixed
      */
-    public function getCacheData($key)
+    public function getCacheData()
     {
-        return Cache::get(self::getCacheKey($key));
+        return Cache::get(self::getCacheKey());
     }
 
     /**
-     * @param $key
-     *
      * @param $data
-     * @param $ttl
+     * @param int $ttl
+     * @param callable $callback
      * @return mixed
      */
-    public function setCacheData($key, $data, $ttl = 0)
+    public function setCacheData($data, $ttl = 0, callable $callback)
     {
         if ($ttl === 0) {
-            return Cache::forever(self::getCacheKey($key), $data);
+            Cache::forever(self::getCacheKey(), $data);
+        } else {
+            Cache::put(self::getCacheKey(), $data, $ttl);
         }
-        return Cache::put(self::getCacheKey($key), $data, $ttl);
+        return call_user_func($callback);
     }
 
     /**
-     * @param $key
      * @return bool
      */
-    public function clearData($key)
+    public function clearData()
     {
-        return Cache::forget(self::getCacheKey($key));
+        return Cache::forget(self::getCacheKey());
     }
 }

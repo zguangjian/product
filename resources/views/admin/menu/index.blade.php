@@ -19,44 +19,46 @@
                   util = layui.util,
                   treeTable = layui.treeTable;
 
+              $(function () {
+                  // 渲染树形表格
+                  var insTb = treeTable.render({
+                      elem: '#demoTreeTb',
+                      url: "{{url()->route('menu-ajax')}}",
+                      toolbar: 'default',
+                      height: 'full-200',
+                      open: true,  // 默认展开
+                      tree: {
+                          iconIndex: 2,
+                          isPidData: true,
+                          idName: 'id',
+                          pidName: 'parent_id',
+                          // arrowType: 'arrow2',
+                          // getIcon: 'ew-tree-icon-style2'
+                      },
+                      cols: [
+                          [
+                              {type: 'numbers'},
+                              {type: 'checkbox'},
+                              {field: 'name', title: '菜单名称', minWidth: 165},
+                              {field: 'url', title: '菜单地址'},
+                              {
+                                  title: '状态', templet: function (d) {
+                                      return d.status == 0 ? '隐藏' : '显示';
+                                  }
+                              },
+                              {
+                                  title: '创建时间', templet: function (d) {
+                                      console.log(d.created_at)
+                                      return util.toDateString(d.created_at * 1000);
+                                  }
+                              },
+                              {align: 'center', toolbar: '#tbBar', title: '操作', width: 120}
+                          ]
+                      ],
+                      style: 'margin-top:0;'
+                  });
+              })
 
-              // 渲染树形表格
-              var insTb = treeTable.render({
-                  elem: '#demoTreeTb',
-                  url: "{{url()->current()}}",
-                  toolbar: 'default',
-                  height: 'full-200',
-                  open: true,  // 默认展开
-                  tree: {
-                      iconIndex: 2,
-                      isPidData: true,
-                      idName: 'id',
-                      pidName: 'parent_id',
-                      // arrowType: 'arrow2',
-                      // getIcon: 'ew-tree-icon-style2'
-                  },
-                  cols: [
-                      [
-                          {type: 'numbers'},
-                          {type: 'checkbox'},
-                          {field: 'name', title: '菜单名称', minWidth: 165},
-                          {field: 'url', title: '菜单地址'},
-                          {
-                              title: '状态', templet: function (d) {
-                                  return d.status == 0 ? '隐藏' : '显示';
-                              }
-                          },
-                          {
-                              title: '创建时间', templet: function (d) {
-                                  console.log(d.created_at)
-                                  return util.toDateString(d.created_at * 1000);
-                              }
-                          },
-                          {align: 'center', toolbar: '#tbBar', title: '操作', width: 120}
-                      ]
-                  ],
-                  style: 'margin-top:0;'
-              });
 
               // 工具列点击事件
               treeTable.on('tool(demoTreeTb)', function (obj) {

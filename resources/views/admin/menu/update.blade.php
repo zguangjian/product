@@ -62,7 +62,7 @@
 @section('content')
     <div class="layui-fluid">
     <div class="layui-card">
-      <div class="layui-card-header">添加菜单</div>
+      <div class="layui-card-header">修改菜单</div>
 
 
       <div class="layui-card-body" style="padding: 15px;">
@@ -73,14 +73,15 @@
                   <select name="parent_id" lay-filter="aihao">
                     <option value="0" {{$menu->parend_id == 0 ?'selected': '' }}>/</option>
                       @foreach(\App\Models\Menu::parentMenu() as $value)
-                          <option value="{{$value['id']}}" {{$menu->parend_id == $value['id'] ? 'selected': '' }}>{{$value['name']}}</option>
+                          <option value="{{$value['id']}}" {{$menu->parent_id == $value['id'] ? 'selected': '' }}>{{$value['name']}}</option>
                           @foreach($value['children'] as $v)
-                              <option value="{{$v['id']}}" {{$menu->parend_id == $v['id'] ? 'selected': '' }}>{!!str_repeat('&nbsp;',$v['_level'] * 2)!!}{{$v['name']}}</option>
+                              <option value="{{$v['id']}}" {{$menu->parent_id == $v['id'] ? 'selected': '' }}>{!!str_repeat('&nbsp;',$v['_level'] * 2)!!}{{$v['name']}}</option>
                           @endforeach
                       @endforeach
                   </select>
                 </div>
           </div>
+            <input type="hidden" name="id" value="{{$menu->id}}">
           <div class="layui-form-item">
             <label class="layui-form-label">菜单名称</label>
             <div class="layui-input-block">
@@ -94,7 +95,7 @@
                 <select name="url" lay-verify="" lay-search="">
                   <option value="">直接选择或搜索选择</option>
                     @foreach(adminMenu() as $route)
-                        <option value="{{$route}}"{{$route == $menu->url ? 'selected':''}}>{{$route}}</option>
+                        <option value="{{$route['uri']}}"{{$route['uri'] == $menu->url ? 'selected':''}}>{{$route['uri']}}</option>
                     @endforeach
                 </select>
               </div>
@@ -102,17 +103,17 @@
           </div>
 
             <div class="layui-form-item">
-                        <label for="" class="layui-form-label">图标</label>
-                        <div class="layui-input-inline">
-                            <input class="layui-input" type="hidden" name="icons" value="{{$menu->icons}}">
-                        </div>
-                        <div class="layui-form-mid layui-word-aux" id="icon_box">
-                            <i class="layui-icon {{$menu->icons}}"></i>
-                        </div>
-                        <div class="layui-form-mid layui-word-aux">
-                            <button type="button" class="layui-btn layui-btn-xs" onclick="showIconsBox()">选择图标</button>
-                        </div>
-                    </div>
+                <label for="" class="layui-form-label">图标</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" type="hidden" name="icons" value="{{$menu->icons}}">
+                </div>
+                <div class="layui-form-mid layui-word-aux" id="icon_box">
+                    <i class="layui-icon {{$menu->icons}}"></i>
+                </div>
+                <div class="layui-form-mid layui-word-aux">
+                    <button type="button" class="layui-btn layui-btn-xs" onclick="showIconsBox()">选择图标</button>
+                </div>
+            </div>
              <div class="layui-form-item">
                 <label class="layui-form-label">排序</label>
                 <div class="layui-input-block">

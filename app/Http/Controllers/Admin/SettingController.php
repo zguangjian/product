@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Common\LaraveCache;
-use App\Http\Common\LaravelCache;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class AdminController extends Controller
+class SettingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +14,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        dd(adminMenu());
+        //
     }
 
     /**
@@ -33,7 +31,6 @@ class AdminController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     *
      * @return void
      */
     public function store(Request $request)

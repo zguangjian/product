@@ -94,7 +94,7 @@
                 <select name="url" lay-verify="" lay-search="">
                   <option value="">直接选择或搜索选择</option>
                     @foreach(adminMenu() as $route)
-                        <option value="{{$route}}">{{$route}}</option>
+                        <option value="{{$route['uri']}}">{{$route['uri']}}</option>
                     @endforeach
                 </select>
               </div>

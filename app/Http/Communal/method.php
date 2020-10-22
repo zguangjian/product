@@ -10,8 +10,10 @@
 
 use App\Http\Communal\RedisManage;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\RouteCollection;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Menu;
+use App\Http\Communal\CacheManage;
 
 /**
  * ajax数据返回
@@ -82,6 +84,7 @@ function admin()
 function adminMenu()
 {
     $list = [];
+    /** @var \Illuminate\Routing\Route $route */
     foreach (app('router')->getRoutes() as $route) {
         /*筛选后台路由*/
         if (in_array('admin.Login', $route->gatherMiddleware())) {
@@ -92,7 +95,10 @@ function adminMenu()
                     unset($explodeList[$key]);
                 }
             }
-            $list[] = implode('/', $explodeList);
+            $list[] = [
+                'name' => $route->getName(),
+                'uri' => implode('/', $explodeList)
+            ];
         }
     }
     return $list;
@@ -192,20 +198,20 @@ function getTreeArray($list, $myId, $maxLevel = 0, $level = 1)
  */
 function menu()
 {
-    if ($menu = RedisManage::menu()->getCacheData()) {
-        return json_decode($menu, true);
-    }
-    $menuList = menuList();
-    return RedisManage::menu()->setCacheData(json_encode($menuList), function () use ($menuList) {
-        return $menuList;
-    });
-
+    return getTreeArray(menuList(), 0, 4);
 }
 
 /**
- * @return array
+ * @return mixed
  */
 function menuList()
 {
-    return getTreeArray(Menu::all()->toArray(), 0, 4);
+    if ($menuList = CacheManage::menu()->getCacheData()) {
+        return $menuList;
+    }
+    $menuList = Menu::orderBy("sort", "asc")->get()->toArray();
+    return CacheManage::menu()->setCacheData($menuList, 0, function () use ($menuList) {
+        return $menuList;
+    });
+
 }
