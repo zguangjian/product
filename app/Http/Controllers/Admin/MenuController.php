@@ -17,29 +17,21 @@ class MenuController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param Request $request
      * @return Factory|JsonResponse|Response|View
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->ajax()) {
-            return responseJson('ok', 0, Menu::all());
-        }
         return view('admin.menu.index');
     }
 
-    public function ajax(Request $request)
+    /**
+     * @return JsonResponse
+     */
+    public function ajax()
     {
-        return responseJson('ok', 0, menu());
+        return responseJson(menuList());
     }
 
-    private function getChildren($children)
-    {
-        $list = [];
-        foreach ($children as $value) {
-
-        }
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -59,9 +51,9 @@ class MenuController extends Controller
             ]);
 
             if (Menu::create($request->post())) {
-                return responseJson('操作成功', 1, ['url' => route('menu-index')]);
+                return responseJson(['url' => route('menu-index')], 1, '操作成功');
             }
-            return responseJson('添加失败', 0);
+            return responseJson([], 0, '添加失败');
         }
 
         return view('admin.menu.create');
@@ -85,10 +77,10 @@ class MenuController extends Controller
                 'status' => 'required',
                 'sort' => 'required',
             ]);
-            if (Menu::find($id)->update($request->post())) {
-                return responseJson('操作成功', 1, ['url' => route('menu-index')]);
+            if ($menu->update($request->post())) {
+                return responseJson(['url' => route('menu-index')], 1, '操作成功');
             }
-            return responseJson('操作失败', 0);
+            return responseJson([], 0, '操作失败');
         }
         return view('admin.menu.update')->with(compact('menu'));
     }
@@ -123,6 +115,6 @@ class MenuController extends Controller
         }
         //删除
         Menu::destroy($idList);
-        return responseJson('删除成功');
+        return responseJson([], 1, '删除成功');
     }
 }

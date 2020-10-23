@@ -72,13 +72,12 @@ class RedisManage
 
     /**
      * @param $data
-     * @param callable $callback
      * @return mixed
      */
-    public function setCacheData($data, callable $callback)
+    public function setCacheData($data)
     {
         Redis::set(self::getCacheKey(), $data);
-        return call_user_func($callback);
+        return $data;
 
     }
 

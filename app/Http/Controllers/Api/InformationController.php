@@ -15,7 +15,7 @@ class InformationController extends Controller
      */
     public function icons()
     {
-        return responseJson('ok', 1, ['icons' => readJson('icons.json')]);
+        return responseJson(['icons' => readJson('icons.json')], 1, 'ok');
     }
 }
 

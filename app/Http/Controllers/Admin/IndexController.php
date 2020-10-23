@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\Factory as FactoryAlias;
 use Illuminate\Http\JsonResponse as JsonResponseAlias;
 use Illuminate\Routing\Router;
 use Artisan;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class IndexController extends Controller
@@ -38,8 +39,8 @@ class IndexController extends Controller
         Artisan::call('route:clear');
         Artisan::call('view:clear');
         Artisan::call('clear-compiled');
-        Artisan::call('modelCache:clear');
-        return responseJson('ok');
+        return responseJson();
     }
+
 
 }

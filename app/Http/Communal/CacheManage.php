@@ -74,17 +74,16 @@ class CacheManage
     /**
      * @param $data
      * @param int $ttl
-     * @param callable $callback
      * @return mixed
      */
-    public function setCacheData($data, $ttl = 0, callable $callback)
+    public function setCacheData($data, $ttl = 0)
     {
         if ($ttl === 0) {
             Cache::forever(self::getCacheKey(), $data);
         } else {
             Cache::put(self::getCacheKey(), $data, $ttl);
         }
-        return call_user_func($callback);
+        return $data;
     }
 
     /**

@@ -3,7 +3,7 @@
         @if(empty($value['children']))
             <li data-name="{{$value['id']}}" class="layui-nav-item">
               <a href="javascript:;" lay-href="{{$value['url']}}" lay-tips="{{$value['name']}}" lay-direction="2">
-                <i class="layui-icon layui-icon-auz"></i>
+                <i class="layui-icon {{$value['icons']}}"></i>
                 <cite>{{$value['name']}}</cite>
               </a>
             </li>

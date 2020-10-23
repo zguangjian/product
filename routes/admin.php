@@ -51,7 +51,10 @@ Route::group(['middleware' => ['admin.Login', 'admin.Auth']], function () {
         Route::match(['get', 'post'], 'update', "RoleController@update")->name("role-update");
         Route::get('destroy', 'RoleController@destroy')->name("role-destroy");
     });
-
+    /** 日志 */
+    Route::group(['prefix' => "log"], function () {
+        Route::get("index", "LogController@index")->name("log-index");
+    });
 
 
 });

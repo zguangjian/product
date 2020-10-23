@@ -22,7 +22,7 @@ use App\Http\Communal\CacheManage;
  * @param array $data 数据
  * @return JsonResponse
  */
-function responseJson($msg = "ok", $code = 1, $data = [])
+function responseJson($data = [], $code = 1, $msg = "ok")
 {
     header('Access-Control-Allow-Origin:*');
     $time = time();
@@ -87,7 +87,7 @@ function adminMenu()
     /** @var \Illuminate\Routing\Route $route */
     foreach (app('router')->getRoutes() as $route) {
         /*筛选后台路由*/
-        if (in_array('admin.Login', $route->gatherMiddleware())) {
+        if (in_array('admin.Login', $route->gatherMiddleware()) && $route->getPrefix() != "admin") {
             /*过滤参数 {param}*/
             $explodeList = explode('/', $route->uri);
             foreach ($explodeList as $key => $value) {
@@ -209,9 +209,6 @@ function menuList()
     if ($menuList = CacheManage::menu()->getCacheData()) {
         return $menuList;
     }
-    $menuList = Menu::orderBy("sort", "asc")->get()->toArray();
-    return CacheManage::menu()->setCacheData($menuList, 0, function () use ($menuList) {
-        return $menuList;
-    });
-
+    $menuList = Menu::orderBy("sort", "asc")->orderBy("id", "asc")->get()->toArray();
+    return CacheManage::menu()->setCacheData($menuList, 0);
 }
