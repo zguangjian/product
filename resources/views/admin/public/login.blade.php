@@ -1,11 +1,10 @@
-@extends('admin.layouts.app');
-
+@extends('admin.layouts.app')
 @section('content')
     <div class="layadmin-user-login layadmin-user-display-show" id="LAY-user-login" style="display: none;">
     <div class="layadmin-user-login-main">
       <div class="layadmin-user-login-box layadmin-user-login-header">
         <h2>@if(isset($meta)){{ $meta['title'] }}@else {{ env('APP_NAME') }} @endif</h2>
-{{--        <p>layui 官方出品的单页面后台管理模板系统</p>--}}
+          {{--        <p>layui 官方出品的单页面后台管理模板系统</p>--}}
       </div>
       <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
         <div class="layui-form-item">
@@ -44,7 +43,7 @@
       </p>
     </div>
     </div>
-@endsection;
+@endsection
 
 @section('js_ext')
     <script>
@@ -65,7 +64,7 @@
                   data: obj.field,
                   type: 'post',
                   success: function (res) {
-                      if (res.code == 1) {
+                      if (res.code == 0) {
                           layer.msg(res.msg, {icon: 1, time: 2000}, function () {
                               window.location.href = res.data.url;
                           })

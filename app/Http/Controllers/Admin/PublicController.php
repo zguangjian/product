@@ -33,11 +33,11 @@ class PublicController extends Controller
             $admin = Admin::where(['account' => $request->get('account')])->first();
 
             if ($admin->status == 0) {
-                return responseJson([], 0, '该账号已禁用');
+                return responseJson([], 1, '该账号已禁用');
             }
 
             if (($password = hashCheck($request->get('password'), $admin->password)) === false) {
-                return responseJson([], 0, '密码错误');
+                return responseJson([], 1, '密码错误');
             }
             /*更新信息*/
             $admin->update([
@@ -46,7 +46,7 @@ class PublicController extends Controller
                 'loginIp' => request()->ip(),
             ]);
             Session::put('Admin', $admin);
-            return responseJson(['url' => url()->route('admin-index')], 1, '登录成功！');
+            return responseJson(['url' => url()->route('admin-index')], 0, '登录成功！');
         }
         return view('admin.public.login');
     }

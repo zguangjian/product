@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Communal\CacheManage;
 use App\Models\Menu;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
@@ -17,21 +16,16 @@ class MenuController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Factory|JsonResponse|Response|View
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->ajax()) {
+            return responseJson(menuList(), 0);
+        }
         return view('admin.menu.index');
     }
-
-    /**
-     * @return JsonResponse
-     */
-    public function ajax()
-    {
-        return responseJson(menuList());
-    }
-
 
     /**
      * Show the form for creating a new resource.
@@ -42,7 +36,7 @@ class MenuController extends Controller
      */
     public function create(Request $request)
     {
-        if ($request->method() == 'POST') {
+        if ($request->ajax()) {
             $this->validate($request, [
                 'name' => 'required|unique:menu',
                 'parent_id' => 'required',
@@ -51,11 +45,10 @@ class MenuController extends Controller
             ]);
 
             if (Menu::create($request->post())) {
-                return responseJson(['url' => route('menu-index')], 1, '操作成功');
+                return responseJson(['url' => route('menu-index')], 0, '操作成功');
             }
-            return responseJson([], 0, '添加失败');
+            return responseJson([], 1, '添加失败');
         }
-
         return view('admin.menu.create');
     }
 
@@ -63,14 +56,14 @@ class MenuController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param int $id
+     * @param $id
      * @return Factory|JsonResponse|View
      * @throws ValidationException
      */
     public function update(Request $request, $id)
     {
         $menu = Menu::find($id);
-        if ($request->method() == 'POST') {
+        if ($request->ajax()) {
             $this->validate($request, [
                 'name' => "required|unique:menu,name,$id,id",
                 'parent_id' => 'required',
@@ -78,9 +71,9 @@ class MenuController extends Controller
                 'sort' => 'required',
             ]);
             if ($menu->update($request->post())) {
-                return responseJson(['url' => route('menu-index')], 1, '操作成功');
+                return responseJson(['url' => route('menu-index')], 0, '操作成功');
             }
-            return responseJson([], 0, '操作失败');
+            return responseJson([], 1, '操作失败');
         }
         return view('admin.menu.update')->with(compact('menu'));
     }
@@ -97,24 +90,7 @@ class MenuController extends Controller
         $this->validate($request, [
             'id' => 'required'
         ]);
-        $idList = [];
-        //获取子类菜单
-        if (gettype($request->get('id')) == 'string') {
-            array_push($idList, $request->get('id'));
-            $menuList = Menu::parentMenu($request->get('id'));
-            foreach ($menuList as $value) {
-                array_push($idList, $value['id']);
-                if (count($value['children']) > 0) {
-                    foreach ($value['children'] as $child) {
-                        array_push($idList, $child['id']);
-                    }
-                }
-            }
-        } else {
-            $idList = array_merge($idList, $request->get('id'));
-        }
-        //删除
-        Menu::destroy($idList);
-        return responseJson([], 1, '删除成功');
+        Menu::destroy($request->get('id'));
+        return responseJson([], 0, '删除成功');
     }
 }

@@ -138,7 +138,7 @@
             <div class="layui-input-block">
               <div class="layui-footer" style="left: 0;">
                 <button class="layui-btn" lay-submit="" lay-filter="component-form-demo1">提交</button>
-                <button class="layui-btn layui-btn-primary" onclick="window.location.href='{{url()->route('menu-index')}}';return false;">返回</button>
+                <button class="layui-btn layui-btn-primary" onclick="close_panel();return false;">返回</button>
               </div>
             </div>
           </div>
@@ -200,10 +200,9 @@
                   data: data.field,
                   dataType: 'json',
                   success: function (data) {
-                      if (data.code == 1) {
+                      if (data.code == 0) {
                           layer.msg(data.msg, {icon: 1, time: 2000}, function () {
-                              layer.closeAll();
-                              window.location.href = data.data.url;
+                              close_panel(true)
                           })
                       } else {
                           layer.msg(data.msg, {icon: 2, time: 2000}, function () {

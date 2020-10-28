@@ -17,16 +17,25 @@ use App\Http\Communal\CacheManage;
 
 /**
  * ajax数据返回
- * @param string $msg 信息
- * @param int $code 0失败 1成功
  * @param array $data 数据
+ * @param int $code 0成功 1失败
+ * @param string $msg 信息
+ * @param array $other
  * @return JsonResponse
  */
-function responseJson($data = [], $code = 1, $msg = "ok")
+function responseJson($data = [], $code = 0, $msg = "ok", $other = [])
 {
     header('Access-Control-Allow-Origin:*');
-    $time = time();
-    return response()->json(compact('code', 'msg', 'data', 'time'));
+    $data = [
+        "code" => $code,
+        "msg" => $msg,
+        "data" => $data,
+        "time" => time()
+    ];
+    foreach ($other as $key => $value) {
+        $data[$key] = $value;
+    }
+    return response()->json($data);
 }
 
 /**

@@ -19,9 +19,12 @@ class AdminController extends Controller
      */
     public function index(Request $request)
     {
-        $list = Admin::paginate(10);
-        $paginator = $list->currentPage();
-        return view("admin.admin.index", compact('list', 'paginator'));
+        if ($request->ajax()) {
+            $paginate = Admin::paginate($request->get('limit'));
+            return responseJson($paginate->items(), 0, 'ok', ['count' => $paginate->total()]);
+        }
+
+        return view("admin.admin.index");
     }
 
     /**
