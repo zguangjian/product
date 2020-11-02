@@ -18,7 +18,8 @@
         "mews/captcha": "^3.1",
         "predis/predis": "^1.1",
         "workerman/gateway-worker": "^3.0",
-        "y-ui/laravel-running-time": "^1.1"
+        "y-ui/laravel-running-time": "^1.1",
+        "zguangjian/oauth": "^1.08"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

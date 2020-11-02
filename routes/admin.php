@@ -41,6 +41,7 @@ Route::group(['middleware' => ['admin.Login', 'admin.Auth']], function () {
         Route::get('index', 'AdminController@index')->name('admin-list');
         Route::match(['get', 'post'], 'create', 'AdminController@create')->name('admin-create');
         Route::match(['get', 'post'], 'update/{id}', 'AdminController@update')->name('admin-update');
+        Route::post('edit/{id?}', 'AdminController@edit')->name('admin-edit');
         Route::get('destroy', 'AdminController@destroy')->name('admin-destroy');
     });
     /** 角色管理 */

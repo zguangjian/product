@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-       // RunningTime\RunningTimeServiceProvider::class,
+        RunningTime\RunningTimeServiceProvider::class,
         /*
          * Application Service Providers...
          */

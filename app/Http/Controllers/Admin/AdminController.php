@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Admin;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AdminController extends Controller
@@ -64,11 +66,13 @@ class AdminController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return void
+     * @param Request $request
+     * @return JsonResponse|void
      */
-    public function edit($id)
+    public function edit($id, Request $request)
     {
-        //
+        Admin::find($id)->update($request->post());
+        return responseJson();
     }
 
     /**
@@ -76,21 +80,37 @@ class AdminController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return void
+     * @return Factory|JsonResponse|View|void
+     * @throws ValidationException
      */
     public function update(Request $request, $id)
     {
-        //
+        $admin = Admin::find($id);
+        if ($request->ajax()) {
+            $this->validate($request, [
+
+            ]);
+            $admin->update($request->post());
+            return responseJson();
+        }
+        return view('admin.admin.update', compact('admin'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return void
+     * @return JsonResponse|void
      */
     public function destroy($id)
     {
-        //
+        try {
+            DB::transaction(function () use ($id) {
+                Admin::destroy($id);
+            });
+        } catch (\Throwable $e) {
+            return responseJson([], 1, $e->getMessage());
+        }
+        return responseJson();
     }
 }
