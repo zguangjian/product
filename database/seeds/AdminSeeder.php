@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Menu;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Artisan;
@@ -23,6 +24,7 @@ class AdminSeeder extends Seeder
             Menu::create($value);
         }
 
+        Role::create(["name" => "超级管理员", "content" => "网站超级管理员", "status" => 1]);
         Artisan::call('cache:clear');
     }
 }

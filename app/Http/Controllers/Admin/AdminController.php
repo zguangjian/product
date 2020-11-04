@@ -63,15 +63,18 @@ class AdminController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     *  editing the specified resource.
      *
-     * @param int $id
      * @param Request $request
      * @return JsonResponse|void
      */
-    public function edit($id, Request $request)
+    public function edit(Request $request)
     {
-        Admin::find($id)->update($request->post());
+        $param = $request->post();
+        if (isset($param['password'])) {
+            $param['password'] = hashMake($param['password']);
+        }
+        Admin::find($request->post('id'))->update($param);
         return responseJson();
     }
 
@@ -99,11 +102,12 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param Request $request
      * @return JsonResponse|void
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
+        $id = $request->get('id');
         try {
             DB::transaction(function () use ($id) {
                 Admin::destroy($id);

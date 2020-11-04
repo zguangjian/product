@@ -94,13 +94,38 @@ layui.extend({
     });
 });
 
+/**
+ * 关闭弹出层
+ * @param isReload
+ * @returns {boolean}
+ */
 function close_panel(isReload = false) {
     var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 
     layer.closeAll();
     parent.layer.close(index); //再执行关闭
-    if (isReload == true) {
+    if (isReload === true) {
         window.parent.location.reload()
     }
+    return true;
+}
+
+/**
+ *  table刷新
+ * @param table
+ * @param c
+ * @returns {boolean}
+ */
+function table_reload(table, c) {
+    table.reload(Object.keys(table.cache).shift(), {
+        page: {
+            curr: table.curr
+        }
+        , where: {
+            //默认会带有上一次的条件
+        }
+    });
+    c();
+    table.render();
     return true;
 }

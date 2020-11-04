@@ -26,7 +26,7 @@
               </div>
 </script>
     <script type="text/html" id="test-table-toolbar-barDemo">
-    <a class="layui-btn layui-btn-warm layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="password">修改密码</a>
+    <a class="layui-btn layui-btn-warm layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="role">权限</a>
     <a class="layui-btn layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="del">删除</a>
     </script>
@@ -50,11 +50,9 @@
           , toolbar: '#test-table-toolbar-toolbarDemo'
           , cols: [[
               {type: 'checkbox', fixed: 'left'}
-              , {field: 'account', title: '用户名', edit: 'text',}
-              , {field: 'email', title: '邮箱', edit: 'text',}
+              , {field: 'name', title: '用户名', }
+              , {field: 'content', title: '描述',}
               , {field: 'status', title: '状态', toolbar: '#test-table-checkboxTpl', unresize: true}
-              , {field: 'loginTime', title: '登录时间', sort: true,}
-              , {field: 'loginIp', title: '登录ip'}
               , {fixed: 'right', title: '操作', toolbar: '#test-table-toolbar-barDemo', width: 200}
           ]]
           , page: true
@@ -73,7 +71,7 @@
                       }), null, 3)
 
                       $.get({
-                          url: "{{url()->route('admin-destroy')}}",
+                          url: "{{url()->route('role-destroy')}}",
                           data: {id: idList},
                           success: function (data) {
                               table_reload(table, function () {
@@ -96,7 +94,7 @@
                       title: false,
                       closeBtn: 0,
                       shadeClose: true,
-                      content: "{{url()->route('admin-create')}}",
+                      content: "{{url()->route('role-create')}}",
                       area: ['300px', '300px'],
                       maxmin: true
                   });
@@ -116,7 +114,7 @@
                   obj.del();
                   layer.close(index);
                   $.ajax({
-                      url: "{{url()->route('admin-destroy')}}",
+                      url: "{{url()->route('role-destroy')}}",
                       data: {id: data.id},
                       success: function (data) {
                           table_reload(table, function () {
@@ -162,7 +160,7 @@
           $.ajax({
               type: "post",
               data: {status: status, id: json.id},
-              url: "{{url()->route('admin-edit')}}",
+              url: "{{url()->route('role-edit')}}",
               success: function (data) {
 
               }
