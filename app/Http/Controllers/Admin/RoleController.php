@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Services\AdminRoleService;
+use App\Models\Admin;
+use App\Models\AdminRole;
 use App\Models\Role;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Throwable;
 
 class RoleController extends Controller
 {
@@ -61,12 +66,17 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
-     * @return void
+     * @param Request $request
+     * @return JsonResponse|void
+     * @throws Throwable
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+
+        DB::transaction(function () use ($request) {
+            Admin::whereId($request->get('id'))->update($request->all());
+        });
+        return responseJson([], 0, '修改成功');
     }
 
     /**
@@ -82,9 +92,28 @@ class RoleController extends Controller
     }
 
     /**
+     * Update the Role's Rule
+     *
+     * @param $id
+     * @param Request $request
+     * @return Factory|JsonResponse|View
+     */
+    public function rule($id, Request $request)
+    {
+        $role = Role::find($id);
+        if ($request->ajax()) {
+            $rule = $request->post('rule', []);
+            $role->rule = json_encode($rule);
+            $role->save();
+            return responseJson([], 0, '操作成功');
+        }
+        $roleRule = $role->rule === null ? [] : json_decode($role->rule, true);
+        return view('admin.role.rule', compact('role', 'rule', 'roleRule'));
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
      * @return void
      */
     public function destroy()

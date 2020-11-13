@@ -58,6 +58,6 @@ class PublicController extends Controller
     protected function loginOut()
     {
         AdminService::LoginOut();
-        return redirect()->route('admin-login');
+        return redirect()->route('admin-index');
     }
 }

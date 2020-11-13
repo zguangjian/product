@@ -26,7 +26,7 @@
               </div>
 </script>
     <script type="text/html" id="test-table-toolbar-barDemo">
-    <a class="layui-btn layui-btn-warm layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="role">权限</a>
+    <a class="layui-btn layui-btn-warm layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="rule" data-url="{{route('role-rule')}}/@{{d.id}}">权限</a>
     <a class="layui-btn layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="del">删除</a>
     </script>
@@ -50,7 +50,7 @@
           , toolbar: '#test-table-toolbar-toolbarDemo'
           , cols: [[
               {type: 'checkbox', fixed: 'left'}
-              , {field: 'name', title: '用户名', }
+              , {field: 'name', title: '用户名',}
               , {field: 'content', title: '描述',}
               , {field: 'status', title: '状态', toolbar: '#test-table-checkboxTpl', unresize: true}
               , {fixed: 'right', title: '操作', toolbar: '#test-table-toolbar-barDemo', width: 200}
@@ -133,14 +133,17 @@
                   });
                   layer.close(index);
               });
-          } else if (obj.event === "password") {
-              layer.open({
-                  title: "密码修改",
-                  type: 1,
-                  skin: 'layui-layer-rim',
-                  area: ['420px', '240px'],
-                  content: '<div style="padding: 10px;">任意html内容</div>'
+          } else if (obj.event === "rule") {
+              var index = layer.open({
+                  type: 2,
+                  title: false,
+                  closeBtn: 0,
+                  shadeClose: true,
+                  content: "{{route('role-rule')}}/" + data.id,
+                  area: ['300px', '300px'],
+                  maxmin: true
               });
+              layer.full(index);
           }
       });
       table.on('edit(test-table-toolbar)', function (obj) {

@@ -101,12 +101,12 @@ layui.extend({
  */
 function close_panel(isReload = false) {
     var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-
-    layer.closeAll();
-    parent.layer.close(index); //再执行关闭
     if (isReload === true) {
         window.parent.location.reload()
     }
+    layer.closeAll();
+    parent.layer.close(index); //再执行关闭
+
     return true;
 }
 

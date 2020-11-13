@@ -108,6 +108,9 @@ class AdminController extends Controller
     public function destroy(Request $request)
     {
         $id = $request->get('id');
+        if ($id == 1 || in_array(1, $id)) {
+            return responseJson([], 1, '无法删除超级管理员');
+        }
         try {
             DB::transaction(function () use ($id) {
                 Admin::destroy($id);

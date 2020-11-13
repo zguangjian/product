@@ -18,6 +18,7 @@ class CreateTRoleTable extends Migration {
 			$table->string('name', 64)->comment('角色名');
 			$table->text('content', 65535)->comment('描述');
 			$table->boolean('status')->default(1)->comment('状态  0关闭 1开启');
+			$table->text('rule', 65535)->nullable();
 			$table->integer('created_at')->nullable();
 			$table->integer('updated_at')->nullable();
 		});

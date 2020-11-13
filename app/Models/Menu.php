@@ -31,6 +31,9 @@ use App\Observers\MenuObserver;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu whereUrl($value)
  * @mixin \Eloquent
+ * @property string|null $icons 菜单图标
+ * @property-read \App\Models\Permissions|null $permissions
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Menu whereIcons($value)
  */
 class Menu extends BaseModel
 {

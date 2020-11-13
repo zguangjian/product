@@ -181,9 +181,10 @@ function getChild($arr, $myId)
  * @param $myId
  * @param int $maxLevel 最大获取层级,默认不限制
  * @param int $level 当前层级,只在递归调用时使用,真实使用时不传入此参数
+ * @param string $filed
  * @return array
  */
-function getTreeArray($list, $myId, $maxLevel = 0, $level = 1)
+function getTreeArray($list, $myId, $maxLevel = 0, $level = 1, $filed = "children")
 {
     $returnArray = [];
     //一级数组
@@ -194,7 +195,7 @@ function getTreeArray($list, $myId, $maxLevel = 0, $level = 1)
             $returnArray[$child['id']] = $child;
             if ($maxLevel === 0 || ($maxLevel !== 0 && $maxLevel > $level)) {
                 $mLevel = $level + 1;
-                $returnArray[$child['id']]["children"] = getTreeArray($list, $child['id'], $maxLevel, $mLevel);
+                $returnArray[$child['id']][$filed] = getTreeArray($list, $child['id'], $maxLevel, $mLevel, $filed);
             }
         }
     }
@@ -203,11 +204,12 @@ function getTreeArray($list, $myId, $maxLevel = 0, $level = 1)
 
 /**
  * 菜单
+ * @param string $filed
  * @return mixed
  */
-function menu()
+function menu($filed = "children")
 {
-    return getTreeArray(menuList(), 0, 4);
+    return getTreeArray(menuList(), 0, 4, 1, $filed);
 }
 
 /**
@@ -221,3 +223,19 @@ function menuList()
     $menuList = Menu::orderBy("sort", "asc")->orderBy("id", "asc")->get()->toArray();
     return CacheManage::menu()->setCacheData($menuList, 0);
 }
+
+/**
+ * 是否有权限
+ * @param $id
+ * @param array $ruleList
+ * @param $system
+ * @return string
+ */
+function rule($id, array $ruleList, $system)
+{
+    if (in_array($id, $ruleList) || $system == 1) {
+        return "checked = ''";
+    }
+    return "";
+}
+

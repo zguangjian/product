@@ -22,6 +22,7 @@ namespace App\Models;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Permissions whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Permissions whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Permissions whereUrl($value)
+ * @property-read \App\Models\Menu $belongsToMenu
  */
 class Permissions extends BaseModel
 {

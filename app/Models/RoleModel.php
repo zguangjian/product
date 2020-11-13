@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Http\Models\Role
@@ -11,18 +14,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name 角色名
  * @property string $content 描述
  * @property int $status 状态  0关闭 1开启
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Http\Models\Role newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Http\Models\Role newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Http\Models\Role query()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Http\Models\Role whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Http\Models\Role whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Http\Models\Role whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Http\Models\Role whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Http\Models\Role whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Http\Models\Role whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|\App\Http\Models\Role newModelQuery()
+ * @method static Builder|\App\Http\Models\Role newQuery()
+ * @method static Builder|\App\Http\Models\Role query()
+ * @method static Builder|\App\Http\Models\Role whereContent($value)
+ * @method static Builder|\App\Http\Models\Role whereCreatedAt($value)
+ * @method static Builder|\App\Http\Models\Role whereId($value)
+ * @method static Builder|\App\Http\Models\Role whereName($value)
+ * @method static Builder|\App\Http\Models\Role whereStatus($value)
+ * @method static Builder|\App\Http\Models\Role whereUpdatedAt($value)
+ * @mixin Eloquent
+ * @property string|null $rule
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Role whereRule($value)
  */
 class Role extends BaseModel
 {
