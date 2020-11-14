@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Services\AdminRoleService;
 use App\Models\Admin;
-use App\Models\AdminRole;
 use App\Models\Role;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Throwable;
 
@@ -34,11 +33,24 @@ class RoleController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return void
+     * @param Request $request
+     * @return Factory|JsonResponse|View
+     * @throws ValidationException
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $this->validate($request, [
+                'name' => 'required|unique:role',
+                'content' => 'required',
+                'status' => 'required'
+            ]);
+            if (Role::create($request->post())) {
+                return responseJson([], 0, '添加成功');
+            }
+            return responseJson([], 1, '添加失败');
+        }
+        return view('admin.role.create');
     }
 
     /**
@@ -72,9 +84,8 @@ class RoleController extends Controller
      */
     public function edit(Request $request)
     {
-
         DB::transaction(function () use ($request) {
-            Admin::whereId($request->get('id'))->update($request->all());
+            Role::whereId($request->get('id'))->update($request->all());
         });
         return responseJson([], 0, '修改成功');
     }
@@ -84,11 +95,26 @@ class RoleController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return void
+     * @return Factory|JsonResponse|View|void
+     * @throws ValidationException
      */
     public function update(Request $request, $id)
     {
-        //
+        $role = Role::whereId($id)->first();
+        if ($request->post()) {
+            $this->validate($request, [
+                'name' => "required|unique:role,name,$id,id",
+                'status' => 'required',
+                'content' => 'required'
+            ]);
+
+            $role->update($request->post());
+            if ($role->save()) {
+                return responseJson([], 0, '修改成功');
+            }
+            return responseJson([], 1, '修改失败');
+        }
+        return view('admin.role.update', compact('role'));
     }
 
     /**
@@ -114,10 +140,21 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @return void
+     * @param Request $request
+     * @return JsonResponse|void
+     * @throws Throwable
      */
-    public function destroy()
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->get('id');
+        if ($id == 1 || gettype($id) == 'array' && in_array(1, $id)) {
+            return responseJson([], 1, '无法操作超级管理员');
+        }
+
+        DB::transaction(function () use ($id) {
+            Role::destroy($id);
+        });
+        return responseJson();
+
     }
 }

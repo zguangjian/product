@@ -48,7 +48,7 @@ Route::group(['middleware' => ['admin.Login', 'admin.Auth']], function () {
     Route::group(['prefix' => "role"], function () {
         Route::get("index", "RoleController@index")->name("role-index");
         Route::match(['get', 'post'], 'create', "RoleController@create")->name("role-create");
-        Route::match(['get', 'post'], 'update', "RoleController@update")->name("role-update");
+        Route::match(['get', 'post'], 'update/{id?}', "RoleController@update")->name("role-update");
         Route::post('edit', "RoleController@edit")->name("role-edit");
         Route::match(['get', 'post'], 'rule/{id?}', "RoleController@rule")->name("role-rule");
         Route::get('destroy', 'RoleController@destroy')->name("role-destroy");

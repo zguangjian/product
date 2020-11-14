@@ -1,5 +1,5 @@
 <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
-    @foreach(menu() as $value)
+    @foreach(menu(true) as $value)
         @if(empty($value['children']))
             <li data-name="{{$value['id']}}" class="layui-nav-item">
               <a href="javascript:;" lay-href="{{$value['url']}}" lay-tips="{{$value['name']}}" lay-direction="2">

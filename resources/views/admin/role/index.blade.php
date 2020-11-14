@@ -27,7 +27,7 @@
 </script>
     <script type="text/html" id="test-table-toolbar-barDemo">
     <a class="layui-btn layui-btn-warm layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="rule" data-url="{{route('role-rule')}}/@{{d.id}}">权限</a>
-    <a class="layui-btn layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="edit" data-url="{{route('role-update')}}/@{{d.id}}">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs @{{d.id == 1 ? 'layui-btn-disabled':''}}" lay-event="del">删除</a>
     </script>
     <script type="text/html" id="test-table-checkboxTpl">
@@ -95,10 +95,10 @@
                       closeBtn: 0,
                       shadeClose: true,
                       content: "{{url()->route('role-create')}}",
-                      area: ['300px', '300px'],
+                      area: [500, 380],
                       maxmin: true
                   });
-                  layer.full(index);
+                 // layer.full(index);
           }
           ;
       });
@@ -108,7 +108,7 @@
           if (obj.data.id == 1) {
               return false;
           }
-          var data = obj.data;
+          let data = obj.data;
           if (obj.event === 'del') {
               layer.confirm('真的删除行么', function (index) {
                   obj.del();
@@ -124,22 +124,23 @@
                   })
               });
           } else if (obj.event === 'edit') {
-              layer.prompt({
-                  formType: 2
-                  , value: data.email
-              }, function (value, index) {
-                  obj.update({
-                      email: value
-                  });
-                  layer.close(index);
-              });
-          } else if (obj.event === "rule") {
-              var index = layer.open({
+              let index = layer.open({
                   type: 2,
                   title: false,
                   closeBtn: 0,
                   shadeClose: true,
-                  content: "{{route('role-rule')}}/" + data.id,
+                  content: this.getAttribute('data-url'),
+                  area: [500, 380],
+                  maxmin: true
+              });
+              //layer.full(index);
+          } else if (obj.event === "rule") {
+              let index = layer.open({
+                  type: 2,
+                  title: false,
+                  closeBtn: 0,
+                  shadeClose: true,
+                  content: this.getAttribute('data-url'),
                   area: ['300px', '300px'],
                   maxmin: true
               });

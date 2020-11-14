@@ -95,18 +95,30 @@ layui.extend({
 });
 
 /**
- * 关闭弹出层
+ * 关闭弹出层 父级页面刷新
  * @param isReload
  * @returns {boolean}
  */
 function close_panel(isReload = false) {
-    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+    let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
     if (isReload === true) {
         window.parent.location.reload()
     }
     layer.closeAll();
     parent.layer.close(index); //再执行关闭
+    return true;
+}
 
+/**
+ * 关闭弹出层 父级页面table刷新
+ * @param table
+ * @returns {boolean}
+ */
+function close_panel_reload_table(table = "test-table-toolbar") {
+    parent.layui.table.reload('test-table-toolbar');
+    layer.closeAll();
+    let index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+    parent.layer.close(index); //再执行关闭
     return true;
 }
 
@@ -125,7 +137,7 @@ function table_reload(table, c) {
             //默认会带有上一次的条件
         }
     });
-    c();
+    c !== undefined ? c() : console.log("callback in not be defined")
     table.render();
     return true;
 }

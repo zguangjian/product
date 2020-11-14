@@ -32,7 +32,7 @@
     </script>
     <script type="text/html" id="test-table-checkboxTpl">
      <input type="checkbox" name="status" title="启用" lay-filter="test-table-lockDemo"
-            value="@{{d.id}}" data-json="@{{ encodeURIComponent(JSON.stringify(d)) }}" @{{d.status== 1 && d.id !="1" ? "checked":""}} @{{d.id==1 ? "disabled":""}}>
+            value="@{{d.id}}" data-json="@{{ encodeURIComponent(JSON.stringify(d)) }}" @{{d.status== 1 && d.id !=1 ? 'checked':''}} @{{d.id==1 ? "disabled":""}}>
 </script>
     <script>
   layui.config({

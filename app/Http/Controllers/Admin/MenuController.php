@@ -62,7 +62,7 @@ class MenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $menu = Menu::find($id);
+        $menu = Menu::whereId($id)->first();
         if ($request->ajax()) {
             $this->validate($request, [
                 'name' => "required|unique:menu,name,$id,id",
@@ -70,7 +70,8 @@ class MenuController extends Controller
                 'status' => 'required',
                 'sort' => 'required',
             ]);
-            if ($menu->update($request->post())) {
+            $menu->update($request->post());
+            if ($menu->save()) {
                 return responseJson(['url' => route('menu-index')], 0, '操作成功');
             }
             return responseJson([], 1, '操作失败');

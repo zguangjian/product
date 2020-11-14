@@ -205,11 +205,20 @@ function getTreeArray($list, $myId, $maxLevel = 0, $level = 1, $filed = "childre
 /**
  * 菜单
  * @param string $filed
+ * @param bool $isLeft
  * @return mixed
  */
-function menu($filed = "children")
+function menu($isLeft = false, $filed = "children")
 {
-    return getTreeArray(menuList(), 0, 4, 1, $filed);
+    $menuList = menuList();
+    if ($isLeft == true) {
+        foreach ($menuList as $key => $value) {
+            if ($value['status'] == 0) {
+                unset($menuList[$key]);
+            }
+        }
+    }
+    return getTreeArray($menuList, 0, 4, 1, $filed);
 }
 
 /**

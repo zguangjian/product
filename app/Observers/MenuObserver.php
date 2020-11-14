@@ -38,6 +38,17 @@ class MenuObserver
      */
     public function updated(Menu $menu)
     {
+        Log::info('即将更新菜单[' . $menu->id . ']' . $menu->name);
+        $this->clearCacheData();
+        return Permissions::where(['mid' => $menu->id])->update([
+            'name' => $menu->name,
+            'url' => $menu->url,
+        ]);
+    }
+
+    public function saved(Menu $menu)
+    {
+        Log::info('即将更新菜单[' . $menu->id . ']' . $menu->name);
         $this->clearCacheData();
         return Permissions::where(['mid' => $menu->id])->update([
             'name' => $menu->name,

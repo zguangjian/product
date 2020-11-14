@@ -38,4 +38,6 @@ class BaseModel extends Model
     {
         return DB::table((new self())->getTable())->insert($attribute);
     }
+
 }
+
