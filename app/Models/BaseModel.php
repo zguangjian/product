@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 
 /**
  * App\Models\BaseModel
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BaseModel newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BaseModel newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BaseModel query()
- * @mixin \Eloquent
+ * @method static Builder|BaseModel newModelQuery()
+ * @method static Builder|BaseModel newQuery()
+ * @method static Builder|BaseModel query()
+ * @mixin Eloquent
  */
 class BaseModel extends Model
 {
@@ -36,7 +38,25 @@ class BaseModel extends Model
      */
     public static function createAll($attribute)
     {
-        return DB::table((new self())->getTable())->insert($attribute);
+        return DB::table((new static())->getTable())->insert($attribute);
+    }
+
+    /**
+     * @param $attribute
+     * @return Model|object|null
+     */
+    public static function findOne($attribute = [])
+    {
+        return (new static())->where($attribute)->first();
+    }
+
+    /**
+     * @param $attribute
+     * @return Collection
+     */
+    public static function findAll($attribute = [])
+    {
+        return (new static())->where($attribute)->get();
     }
 
 }

@@ -10,16 +10,22 @@
 namespace App\Http\Services;
 
 
+use App\Http\Communal\CacheManage;
+use App\Models\Role;
+
 class AdminRoleService
 {
-    public static function permissions($rule = [])
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public static function getRoleRulePermission($id)
     {
-        dd(permission());
-    }
-
-
-    public static function permissionAttr($item)
-    {
-
+        $permission = CacheManage::role_permission($id)->getCacheData();
+        if ($permission == null) {
+            $role = Role::findOne(['id' => $id]);
+            return CacheManage::role_permission($id)->setCacheData(json_decode($role->rule, true));
+        }
+        return $permission;
     }
 }

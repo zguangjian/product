@@ -8,9 +8,9 @@
  * Email: zguangjian@outlook.com
  */
 
-use App\Http\Communal\RedisManage;
+use App\Models\Admin;
+use App\Models\AdminRole;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Routing\RouteCollection;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Menu;
 use App\Http\Communal\CacheManage;
@@ -43,7 +43,7 @@ function responseJson($data = [], $code = 0, $msg = "ok", $other = [])
  * @param $code
  * @throws Exception
  */
-function ajaxException($msg = "", $code = 0)
+function ajaxException($msg = "", $code = 1)
 {
     throw new Exception($msg, $code);
 }
@@ -78,8 +78,7 @@ function hashCheck($str, $hashString = '')
 }
 
 /**
- * 管理员信息
- * @return mixed
+ * @return null|Admin
  */
 function admin()
 {
@@ -106,7 +105,8 @@ function adminMenu()
             }
             $list[] = [
                 'name' => $route->getName(),
-                'uri' => implode('/', $explodeList)
+                'uri' => implode('/', $explodeList),
+                'requestUrl' => '/' . implode('/', $explodeList)
             ];
         }
     }
@@ -144,7 +144,7 @@ function roundIp()
 function readJson($file)
 {
     if (file_exists($file)) {
-        ajaxException('文件不存在');
+        ajaxException("文件不存在");
     }
     return json_decode(file_get_contents("./json/$file"), true);
 }
@@ -222,6 +222,7 @@ function menu($isLeft = false, $filed = "children")
 }
 
 /**
+ * 菜单列表
  * @return mixed
  */
 function menuList()
@@ -246,5 +247,13 @@ function rule($id, array $ruleList, $system)
         return "checked = ''";
     }
     return "";
+}
+
+/**
+ * @return bool
+ */
+function isSystem()
+{
+    return admin()->id == 1 || AdminRole::findOne(['adminId' => admin()->id, 'roleId' => 1]) != null ? true : false;
 }
 

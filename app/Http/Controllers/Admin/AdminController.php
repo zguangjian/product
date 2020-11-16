@@ -36,7 +36,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        //
+        dd(roundIp());
     }
 
     /**
@@ -94,6 +94,7 @@ class AdminController extends Controller
 
             ]);
             $admin->update($request->post());
+            $admin->save();
             return responseJson();
         }
         return view('admin.admin.update', compact('admin'));

@@ -70,8 +70,7 @@ class MenuController extends Controller
                 'status' => 'required',
                 'sort' => 'required',
             ]);
-            $menu->update($request->post());
-            if ($menu->save()) {
+            if ($menu->update($request->post())) {
                 return responseJson(['url' => route('menu-index')], 0, '操作成功');
             }
             return responseJson([], 1, '操作失败');

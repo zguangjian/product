@@ -834,11 +834,8 @@ layui.define('view', function (exports) {
     //统一处理ajax error响应
     $(document).ajaxError(
         //所有ajax请求异常的统一处理函数，处理
-        function (event, xhr, options, exc) {
 
-            if (xhr.status == 'undefined') {
-                return;
-            }
+        function (event, xhr, options, exc) {
             switch (xhr.status) {
                 case 403:
                     layer.msg("系统拒绝：您没有访问权限。", {icon: 2, time: 2000}, function () {
@@ -871,7 +868,7 @@ layui.define('view', function (exports) {
 
                     break;
                 case 500:
-                    layer.msg("出现一个小bug", {icon: 2, time: 2000}, function () {
+                    layer.msg(xhr.responseJSON.message, {icon: 2, time: 2000}, function () {
                         layer.closeAll();
                     });
                     break;

@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Cache;
  * @package App\Http\Communal
  * @method static CacheManage user()
  * @method static CacheManage menu()
+ * @method static CacheManage permission()
+ * @method static CacheManage role_permission($role_id)
  */
 class CacheManage
 {
@@ -28,20 +30,16 @@ class CacheManage
      */
     private $param;
 
-    /**
-     * @var mixed
-     */
-    private $id;
 
     /**
      * CacheManage constructor.
      * @param $method
+     * @param $param
      */
-    public function __construct($method, $param)
+    public function __construct($method, $param = [])
     {
         $this->method = $method;
         $this->param = $param;
-        $this->id = current($param);
     }
 
     /**
@@ -54,13 +52,20 @@ class CacheManage
         return new self($method, $param);
     }
 
+    /**
+     * @return string
+     */
+    private function uniqueKey()
+    {
+        return empty($this->param) ? "" : '__' . implode('__', $this->param);
+    }
 
     /**
      * @return string
      */
-    public function getCacheKey()
+    private function getCacheKey()
     {
-        return "Cache__" . $this->method . (empty($this->id) ? "" : ("__" . array_unshift($this->param)));
+        return "Cache__" . $this->method . $this->uniqueKey();
     }
 
     /**

@@ -112,7 +112,6 @@
       }).use(['index', 'form', 'laydate'], function () {
           var $ = layui.$
               , admin = layui.admin
-              , element = layui.element
               , layer = layui.layer
               , laydate = layui.laydate
               , form = layui.form;

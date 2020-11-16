@@ -124,8 +124,9 @@
           }).extend({
               index: 'lib/index' //主入口模块
           }).use(['index', 'layer', 'table', 'form'], function () {
-              let $ = layui.$;
-              let form = layui.form;
+              let $ = layui.$
+                  , admin = layui.admin
+                  , form = layui.form;
 
               form.on('checkbox', function (data) {
                   var check = data.elem.checked;//是否选中

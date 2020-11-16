@@ -15,9 +15,10 @@
           layui.config({
               base: "{{url('layuiadmin')}}/" //静态资源所在路径
           }).use(['treeTable', 'util'], function () {
-              var $ = layui.jquery,
-                  util = layui.util,
-                  treeTable = layui.treeTable;
+              var $ = layui.jquery
+                  , admin = layui.admin
+                  , util = layui.util
+                  , treeTable = layui.treeTable;
 
 
               // 渲染树形表格
