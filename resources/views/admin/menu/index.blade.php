@@ -76,6 +76,7 @@
                                   });
                               }
                           })
+                          layer.closeAll()
                       })
 
                   } else if (event === 'edit') {
@@ -95,7 +96,8 @@
               treeTable.on('toolbar(demoTreeTb)', function (obj) {
                   switch (obj.event) {
                       case 'add':
-                          var index = layer.open({
+
+                          let index = layer.open({
                               type: 2,
                               title: false,
                               closeBtn: 0,
@@ -114,7 +116,6 @@
                           layer.confirm('是否要删除信息!', {
                               btn: ['确定', '取消']
                           }, function () {
-                              layer.load();
                               $.ajax({
                                   type: 'get',
                                   url: "{{route('menu-destroy')}}",
@@ -122,13 +123,11 @@
                                   success: function (data) {
                                       layer.msg(data.msg, {icon: 1, time: 2000}, function () {
                                           insTb.refresh()
+                                          layer.closeAll();  //关闭消息框
                                       });
                                   }
                               })
-                              layer.closeAll();  //关闭消息框
-
                           })
-
                           break;
                       case 'update':
 

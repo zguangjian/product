@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Menu;
+use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -84,13 +86,19 @@ class MenuController extends Controller
      * @param Request $request
      * @return JsonResponse|Response
      * @throws ValidationException
+     * @throws Exception
      */
     public function destroy(Request $request)
     {
         $this->validate($request, [
             'id' => 'required'
         ]);
-        Menu::destroy($request->get('id'));
+
+        $menu = Menu::whereIn('id', collect($request->get('id')))->get();
+        /** @var Menu $value */
+        foreach ($menu as $value) {
+            $value->delete();
+        }
         return responseJson([], 0, '删除成功');
     }
 }

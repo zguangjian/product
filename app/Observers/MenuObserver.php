@@ -4,6 +4,7 @@ namespace App\Observers;
 
 
 use App\Http\Communal\CacheManage;
+use App\Http\Services\AdminMenuService;
 use Exception;
 use App\Models\Menu;
 use App\Models\Permissions;
@@ -22,7 +23,7 @@ class MenuObserver
     public function created(Menu $menu)
     {
         Log::info('即将新增菜单[' . $menu->id . ']' . $menu->name);
-        $this->clearCacheData();
+        AdminMenuService::menuCacheClear();
         if ($menu->url != null) {
             return Permissions::create(['mid' => $menu->id, 'name' => $menu->name, 'url' => $menu->url]);
         }
@@ -41,7 +42,7 @@ class MenuObserver
     public function updated(Menu $menu)
     {
         Log::info('即将updated菜单[' . $menu->id . ']' . $menu->name);
-        $this->clearCacheData();
+        AdminMenuService::menuCacheClear();
         if ($menu->url == null) {
             Permissions::findOne(['mid' => $menu->id])->delete();
         } else {
@@ -60,7 +61,8 @@ class MenuObserver
      */
     public function deleted(Menu $menu)
     {
-        $this->clearCacheData();
+        Log::info('即将删除菜单[' . $menu->id . ']' . $menu->name);
+        AdminMenuService::menuCacheClear();
         return Permissions::findOne(['mid' => $menu->id])->delete();
     }
 
@@ -82,13 +84,5 @@ class MenuObserver
     public function forceDeleted(Menu $menu)
     {
         Log::info('即将强制删除菜单[' . $menu->id . ']' . $menu->name);
-    }
-
-    /**
-     * @return bool
-     */
-    private function clearCacheData()
-    {
-        return CacheManage::permission()->clearData() && CacheManage::menu()->clearData();
     }
 }

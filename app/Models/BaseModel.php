@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -58,6 +59,5 @@ class BaseModel extends Model
     {
         return (new static())->where($attribute)->get();
     }
-
 }
 
