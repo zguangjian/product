@@ -835,7 +835,9 @@ layui.define('view', function (exports) {
     $(document).ajaxError(
         //所有ajax请求异常的统一处理函数，处理
 
+
         function (event, xhr, options, exc) {
+            console.log(xhr);
             switch (xhr.status) {
                 case 403:
                     layer.msg("系统拒绝：您没有访问权限。", {icon: 2, time: 2000}, function () {
@@ -872,10 +874,16 @@ layui.define('view', function (exports) {
                         layer.closeAll();
                     });
                     break;
+                case 501:
+                    layer.msg(xhr.responseJSON.message, {icon: 2, time: 2000}, function () {
+                        layer.closeAll();
+                    });
+                    break;
             }
 
         }
-    );
+    )
+    ;
     //接口输出
     exports('admin', admin);
 });

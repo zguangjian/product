@@ -43,7 +43,7 @@ class BaseModel extends Model
 
     /**
      * @param $attribute
-     * @return Model|object|null
+     * @return static|object|null
      */
     public static function findOne($attribute = [])
     {

@@ -14,9 +14,10 @@
     <script>
           layui.config({
               base: "{{url('layuiadmin')}}/" //静态资源所在路径
-          }).use(['treeTable', 'util'], function () {
-              var $ = layui.jquery
-                  , admin = layui.admin
+          }).extend({
+              index: 'lib/index' //主入口模块
+          }).use(['treeTable', 'index', 'util'], function () {
+              let admin = layui.admin
                   , util = layui.util
                   , treeTable = layui.treeTable;
 
@@ -75,8 +76,6 @@
                                   });
                               }
                           })
-                          layer.closeAll();  //关闭消息框
-
                       })
 
                   } else if (event === 'edit') {

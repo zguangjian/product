@@ -89,6 +89,6 @@ class MenuObserver
      */
     private function clearCacheData()
     {
-        return CacheManage::menu()->clearData();
+        return CacheManage::permission()->clearData() && CacheManage::menu()->clearData();
     }
 }

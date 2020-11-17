@@ -122,8 +122,8 @@
           <div class="layui-form-item">
             <label class="layui-form-label">状态</label>
             <div class="layui-input-block">
-                <input type="radio" name="status" value="1" title="显示" checked>
-                <input type="radio" name="status" value="0" title="隐藏">
+                <input type="radio" name="status" value="0" title="隐藏" checked>
+                <input type="radio" name="status" value="1" title="显示">
             </div>
           </div>
             <input type="hidden" name="status" value="1">

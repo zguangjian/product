@@ -74,7 +74,7 @@ class AdminController extends Controller
         if (isset($param['password'])) {
             $param['password'] = hashMake($param['password']);
         }
-        Admin::find($request->post('id'))->update($param);
+        Admin::findOne($request->post('id'))->update($param);
         return responseJson();
     }
 

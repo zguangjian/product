@@ -24,7 +24,13 @@ class AdminRoleService
         $permission = CacheManage::role_permission($id)->getCacheData();
         if ($permission == null) {
             $role = Role::findOne(['id' => $id]);
-            return CacheManage::role_permission($id)->setCacheData(json_decode($role->rule, true));
+            /**  */
+            if ($role->status == 0) {
+                $rule = [];
+            } else {
+                $rule = json_decode($role->rule, true);
+            }
+            return CacheManage::role_permission($id)->setCacheData($rule);
         }
         return $permission;
     }
