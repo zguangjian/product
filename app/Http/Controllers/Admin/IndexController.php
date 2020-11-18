@@ -52,6 +52,7 @@ class IndexController extends Controller
     {
         if ($request->post()) {
             Admin::findOne(['id' => admin()->id])->update(['password' => hashMake($request->post('password'))]);
+            return responseJson([], 0, '操作成功');
         }
         return view('admin.index.password');
     }
