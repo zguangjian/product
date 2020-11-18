@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
 use Illuminate\Support\Facades\DB;
 use App\Models\Admin;
 use Illuminate\Contracts\View\Factory;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Throwable;
 
 class AdminController extends Controller
 {
@@ -74,7 +76,7 @@ class AdminController extends Controller
         if (isset($param['password'])) {
             $param['password'] = hashMake($param['password']);
         }
-        Admin::find($request->post('id'))->update($param);
+        Admin::findOne($request->post('id'))->update($param);
         return responseJson();
     }
 
@@ -105,18 +107,20 @@ class AdminController extends Controller
      *
      * @param Request $request
      * @return JsonResponse|void
+     * @throws Exception
      */
     public function destroy(Request $request)
     {
         $id = $request->get('id');
-        if ($id == 1 || in_array(1, $id)) {
-            return responseJson([], 1, '无法删除超级管理员');
+        if ($id == 1 || (gettype($id) == 'array' && in_array(1, $id))) {
+            return ajaxException('无法删除超级管理员');
         }
+
         try {
             DB::transaction(function () use ($id) {
                 Admin::destroy($id);
             });
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             return responseJson([], 1, $e->getMessage());
         }
         return responseJson();

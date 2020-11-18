@@ -10,12 +10,16 @@
 namespace App\Http\Services;
 
 
+use App\Http\Communal\CacheManage;
 use App\Models\Menu;
 
 class AdminMenuService
 {
-    public static function getMenuList()
+    /**
+     * @return bool
+     */
+    public static function menuCacheClear()
     {
-        $list = Menu::all();
+        return CacheManage::menu()->clearData() && AdminPermissionService::permissionCacheClear();
     }
 }

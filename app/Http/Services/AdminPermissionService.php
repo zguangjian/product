@@ -28,4 +28,12 @@ class AdminPermissionService
         }
         return $permission;
     }
+
+    /**
+     * @return bool
+     */
+    public static function permissionCacheClear()
+    {
+        return CacheManage::permission()->clearData();
+    }
 }

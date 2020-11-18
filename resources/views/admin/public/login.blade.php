@@ -64,7 +64,7 @@
                   data: obj.field,
                   type: 'post',
                   success: function (res) {
-                      if (res.code == 0) {
+                      if (res.code === 0) {
                           layer.msg(res.msg, {icon: 1, time: 2000}, function () {
                               window.location.href = res.data.url;
                           })

@@ -136,12 +136,20 @@
                   layer.close(index);
               });
           } else if (obj.event === "password") {
-              layer.open({
-                  title: "密码修改",
-                  type: 1,
-                  skin: 'layui-layer-rim',
-                  area: ['420px', '240px'],
-                  content: '<div style="padding: 10px;">任意html内容</div>'
+              layer.prompt({
+                  title: '修改密码'
+                  , formType: 1
+                  , btnAlign: 'c'
+              }, function (value, index, obj) {
+                  console.log(value);
+                  $.ajax({
+                      type: 'post',
+                      url: "{{route('admin-edit')}}",
+                      data: {password: value, id: obj.data.id},
+                      success: function (data) {
+                          layer.close(index);
+                      }
+                  })
               });
           }
       });

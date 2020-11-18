@@ -40,12 +40,13 @@ function responseJson($data = [], $code = 0, $msg = "ok", $other = [])
 
 /**
  * @param $msg
- * @param $code
+ * @param $code 504重定向
+ * @return JsonResponse
  * @throws Exception
  */
-function ajaxException($msg = "", $code = 1)
+function ajaxException($msg = "", $code = 500)
 {
-    throw new Exception($msg, $code);
+    return response()->json(['message' => $msg], $code);
 }
 
 

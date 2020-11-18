@@ -26,7 +26,7 @@ class Auth
             //需要执行的url
             $permission = AdminPermissionService::getPermission();
 
-            if (array_flip($permission)[$url]) {
+            if (key_exists($url, array_flip($permission))) {
                 //获取角色
                 $role = AdminRole::findAll(['adminId' => admin()->id]);
                 //获取角色权限
@@ -41,10 +41,9 @@ class Auth
                         $urlList[$permission[$value]] = $key;
                     }
                 }
-                // TODO URLlIST
-                if (!$urlList[$url]) {
+                if (!isset($urlList[$url])) {
                     if ($request->ajax()) {
-                        return ajaxException("暂无权限", 1);
+                        return ajaxException("暂无权限", 500);
                     } else {
                         return view('error.rule')->with(['message' => 'No permissions!']);
                     }

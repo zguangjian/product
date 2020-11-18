@@ -15,6 +15,8 @@ Route::group(['middleware' => ['admin.Login', 'admin.Auth']], function () {
     Route::get('/', 'IndexController@index')->name('admin-index');
     Route::get('welcome', 'IndexController@welcome')->name('admin-welcome');
     Route::get('clear', 'IndexController@clear')->name('admin-clear');
+    Route::match(['get', 'post'], 'password', 'IndexController@password')->name('admin-password');
+
     /** 菜单*/
     Route::group(['prefix' => 'menu'], function () {
         Route::get('index', 'MenuController@index')->name('menu-index');
