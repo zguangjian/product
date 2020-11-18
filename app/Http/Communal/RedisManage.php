@@ -62,7 +62,6 @@ class RedisManage
     }
 
     /**
-     * @param $key
      * @return mixed
      */
     public function getCacheData()

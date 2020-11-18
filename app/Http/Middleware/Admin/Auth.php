@@ -25,6 +25,7 @@ class Auth
             $url = $request->route()->compiled->getStaticPrefix();
             //需要执行的url
             $permission = AdminPermissionService::getPermission();
+
             if (key_exists($url, array_flip($permission))) {
                 //获取角色
                 $role = AdminRole::findAll(['adminId' => admin()->id]);
@@ -35,13 +36,11 @@ class Auth
                     $roleRule = AdminRoleService::getRoleRulePermission($value->roleId) ?: [];
                     $rolePermission = array_merge($rolePermission, array_values($roleRule));
                 }
-
                 foreach ($rolePermission as $key => $value) {
                     if (isset($permission[$value])) {
                         $urlList[$permission[$value]] = $key;
                     }
                 }
-                // TODO URLlIST
                 if (!isset($urlList[$url])) {
                     if ($request->ajax()) {
                         return ajaxException("暂无权限", 500);

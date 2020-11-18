@@ -26,36 +26,36 @@
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
 
 {{--          <li class="layui-nav-item" lay-unselect>--}}
-{{--            <a lay-href="app/message/index.html" layadmin-event="message" lay-text="消息中心">--}}
-{{--              <i class="layui-icon layui-icon-notice"></i>--}}
+            {{--            <a lay-href="app/message/index.html" layadmin-event="message" lay-text="消息中心">--}}
+            {{--              <i class="layui-icon layui-icon-notice"></i>--}}
 
-{{--                <!-- 如果有新消息，则显示小圆点 -->--}}
-{{--              <span class="layui-badge-dot"></span>--}}
-{{--            </a>--}}
-{{--          </li>--}}
-{{--          <li class="layui-nav-item layui-hide-xs" lay-unselect>--}}
-{{--            <a href="javascript:;" layadmin-event="theme">--}}
-{{--              <i class="layui-icon layui-icon-theme"></i>--}}
-{{--            </a>--}}
-{{--          </li>--}}
-{{--          <li class="layui-nav-item layui-hide-xs" lay-unselect>--}}
-{{--            <a href="javascript:;" layadmin-event="note">--}}
-{{--              <i class="layui-icon layui-icon-note"></i>--}}
-{{--            </a>--}}
-{{--          </li>--}}
-{{--          <li class="layui-nav-item layui-hide-xs" lay-unselect>--}}
-{{--            <a href="javascript:;" layadmin-event="fullscreen">--}}
-{{--              <i class="layui-icon layui-icon-screen-full"></i>--}}
-{{--            </a>--}}
-{{--          </li>--}}
-          <li class="layui-nav-item" lay-unselect>
+            {{--                <!-- 如果有新消息，则显示小圆点 -->--}}
+            {{--              <span class="layui-badge-dot"></span>--}}
+            {{--            </a>--}}
+            {{--          </li>--}}
+            {{--          <li class="layui-nav-item layui-hide-xs" lay-unselect>--}}
+            {{--            <a href="javascript:;" layadmin-event="theme">--}}
+            {{--              <i class="layui-icon layui-icon-theme"></i>--}}
+            {{--            </a>--}}
+            {{--          </li>--}}
+            {{--          <li class="layui-nav-item layui-hide-xs" lay-unselect>--}}
+            {{--            <a href="javascript:;" layadmin-event="note">--}}
+            {{--              <i class="layui-icon layui-icon-note"></i>--}}
+            {{--            </a>--}}
+            {{--          </li>--}}
+            {{--          <li class="layui-nav-item layui-hide-xs" lay-unselect>--}}
+            {{--            <a href="javascript:;" layadmin-event="fullscreen">--}}
+            {{--              <i class="layui-icon layui-icon-screen-full"></i>--}}
+            {{--            </a>--}}
+            {{--          </li>--}}
+            <li class="layui-nav-item" lay-unselect>
             <a href="javascript:;">
 
                 <cite>{{admin()->account}}</cite>
             </a>
             <dl class="layui-nav-child">
               <dd><a lay-href="set/user/info.html">基本资料</a></dd>
-              <dd><a lay-href="set/user/password.html">修改密码</a></dd>
+              <dd><a lay-href="{{route('admin-password')}}">修改密码</a></dd>
               <hr>
 
               <dd layadmin-event="logout" style="text-align: center;"><a href="{{url()->route('admin-login-out')}}">退出</a></dd>
