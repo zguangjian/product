@@ -70,14 +70,23 @@ class RedisManage
     }
 
     /**
-     * @param $data
+     * @param $key
+     * @param $ttl
      * @return mixed
      */
-    public function setCacheData($data)
+    private function setCacheTtl($key, $ttl)
     {
-        Redis::set(self::getCacheKey(), $data);
-        return $data;
+        return $ttl > 0 ? Redis::expire($key, $ttl) : false;
+    }
 
+    /**
+     * @param $data
+     * @param int $ttl 秒
+     * @return mixed
+     */
+    public function setCacheData($data, $ttl = 0)
+    {
+        return $ttl > 0 ? Redis::setex(self::getCacheKey(), $ttl, $data) : Redis::set(self::getCacheKey(), $data);
     }
 
     /**

@@ -8,11 +8,11 @@
  * Email: zguangjian@outlook.com
  */
 
-use App\Models\Admin;
-use App\Models\AdminRole;
+use App\Models\AdminModel;
+use App\Models\AdminRoleModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Menu;
+use App\Models\MenuModel;
 use App\Http\Communal\CacheManage;
 
 /**
@@ -79,7 +79,7 @@ function hashCheck($str, $hashString = '')
 }
 
 /**
- * @return null|Admin
+ * @return null|AdminModel
  */
 function admin()
 {
@@ -231,7 +231,7 @@ function menuList()
     if ($menuList = CacheManage::menu()->getCacheData()) {
         return $menuList;
     }
-    $menuList = Menu::orderBy("sort", "asc")->orderBy("id", "asc")->get()->toArray();
+    $menuList = MenuModel::orderBy("sort", "asc")->orderBy("id", "asc")->get()->toArray();
     return CacheManage::menu()->setCacheData($menuList, 0);
 }
 
@@ -255,6 +255,7 @@ function rule($id, array $ruleList, $system)
  */
 function isSystem()
 {
-    return admin()->id == 1 || AdminRole::findOne(['adminId' => admin()->id, 'roleId' => 1]) != null ? true : false;
+    return admin()->id == 1 || AdminRoleModel::findOne(['adminId' => admin()->id, 'roleId' => 1]) != null ? true : false;
 }
+
 

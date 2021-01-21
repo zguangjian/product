@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Communal\RedisManage;
-use App\Http\Services\AdminService;
-use App\Models\Admin;
+use App\Models\AdminModel;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Redis\RedisManager;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Session;
@@ -30,7 +27,7 @@ class PublicController extends Controller
                 'password' => 'required|min:6|max:16',
                 'captcha' => 'required|captcha',
             ]);
-            $admin = Admin::where(['account' => $request->get('account')])->first();
+            $admin = AdminModel::where(['account' => $request->get('account')])->first();
 
             if ($admin->status == 0) {
                 return responseJson([], 1, '该账号已禁用');

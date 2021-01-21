@@ -11,7 +11,7 @@ namespace App\Http\Services;
 
 
 use App\Http\Communal\CacheManage;
-use App\Models\Permissions;
+use App\Models\PermissionsModel;
 
 class AdminPermissionService
 {
@@ -22,7 +22,7 @@ class AdminPermissionService
     {
         $permission = CacheManage::permission()->getCacheData();
         if ($permission == null) {
-            $permission = Permissions::findAll()->toArray();
+            $permission = PermissionsModel::findAll()->toArray();
             $permission = array_column($permission, 'url', 'mid');
             return CacheManage::permission()->setCacheData($permission);
         }

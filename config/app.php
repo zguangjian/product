@@ -176,7 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /**
-         * Macroable 重构
+         * Macro 重构
          */
         App\Providers\CollectionMacroServiceProvider::class,
 

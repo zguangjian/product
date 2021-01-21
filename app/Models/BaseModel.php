@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Communal\ElasticSearch;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\DB;
  */
 class BaseModel extends Model
 {
+    //use ElasticSearch;
+
     //自动更新时间字段
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
@@ -30,7 +33,7 @@ class BaseModel extends Model
      */
     public function getTable()
     {
-        return $this->table ? $this->table : strtolower(snake_case(class_basename($this)));
+        return $this->table ? $this->table : strtolower(str_replace('_model', '', snake_case(class_basename($this))));
     }
 
     /**
@@ -57,7 +60,7 @@ class BaseModel extends Model
      */
     public static function findAll($attribute = [])
     {
-        return (new static())->where($attribute)->get();
+        return (new BaseModel)->where($attribute)->get();
     }
 }
 

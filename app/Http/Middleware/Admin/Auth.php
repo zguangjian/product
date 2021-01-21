@@ -4,7 +4,7 @@ namespace App\Http\Middleware\Admin;
 
 use App\Http\Services\AdminPermissionService;
 use App\Http\Services\AdminRoleService;
-use App\Models\AdminRole;
+use App\Models\AdminRoleModel;
 use Closure;
 use Exception;
 use Illuminate\Http\Request;
@@ -28,10 +28,10 @@ class Auth
 
             if (key_exists($url, array_flip($permission))) {
                 //获取角色
-                $role = AdminRole::findAll(['adminId' => admin()->id]);
+                $role = AdminRoleModel::findAll(['adminId' => admin()->id]);
                 //获取角色权限
                 $rolePermission = $urlList = [];
-                /** @var AdminRole $value */
+                /** @var AdminRoleModel $value */
                 foreach ($role as $value) {
                     $roleRule = AdminRoleService::getRoleRulePermission($value->roleId) ?: [];
                     $rolePermission = array_merge($rolePermission, array_values($roleRule));

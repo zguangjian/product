@@ -72,7 +72,7 @@
                 <div class="layui-input-block">
                   <select name="parent_id" lay-filter="aihao">
                     <option value="0">/</option>
-                      @foreach(\App\Models\Menu::parentMenu() as $value)
+                      @foreach(\App\Models\MenuModel::parentMenu() as $value)
                           <option value="{{$value['id']}}">{{$value['name']}}</option>
                           @foreach($value['children'] as $v)
                               <option value="{{$v['id']}}">{!!str_repeat('&nbsp;',$v['_level'] * 2)!!}{{$v['name']}}</option>

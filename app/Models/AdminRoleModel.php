@@ -22,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Http\Models\AdminRole whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class AdminRole extends BaseModel
+class AdminRoleModel extends BaseModel
 {
     protected $table = "admin_role";
 

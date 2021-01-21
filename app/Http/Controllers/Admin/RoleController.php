@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Admin;
-use App\Models\Role;
+use App\Models\AdminModel;
+use App\Models\RoleModel;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $paginate = Role::paginate($request->get('limit'));
+            $paginate = RoleModel::paginate($request->get('limit'));
             return responseJson($paginate->items(), 0, 'ok', ['count' => $paginate->total()]);
         }
         return view('admin.role.index');
@@ -45,7 +45,7 @@ class RoleController extends Controller
                 'content' => 'required',
                 'status' => 'required'
             ]);
-            if (Role::create($request->post())) {
+            if (RoleModel::create($request->post())) {
                 return responseJson([], 0, '添加成功');
             }
             return responseJson([], 1, '添加失败');
@@ -85,7 +85,7 @@ class RoleController extends Controller
     public function edit(Request $request)
     {
         DB::transaction(function () use ($request) {
-            Role::whereId($request->get('id'))->update($request->all());
+            RoleModel::whereId($request->get('id'))->update($request->all());
         });
         return responseJson([], 0, '修改成功');
     }
@@ -100,7 +100,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $role = Role::whereId($id)->first();
+        $role = RoleModel::whereId($id)->first();
         if ($request->post()) {
             $this->validate($request, [
                 'name' => "required|unique:role,name,$id,id",
@@ -126,7 +126,7 @@ class RoleController extends Controller
      */
     public function rule($id, Request $request)
     {
-        $role = Role::find($id);
+        $role = RoleModel::find($id);
         if ($request->ajax()) {
             $rule = $request->post('rule', []);
             $role->rule = json_encode($rule);
@@ -152,7 +152,7 @@ class RoleController extends Controller
         }
 
         DB::transaction(function () use ($id) {
-            Role::destroy($id);
+            RoleModel::destroy($id);
         });
         return responseJson();
 

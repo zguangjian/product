@@ -3,17 +3,17 @@
 namespace App\Observers;
 
 use App\Http\Communal\CacheManage;
-use App\Models\Role;
+use App\Models\RoleModel;
 
 class RoleObserve
 {
     /**
      * Handle the role "created" event.
      *
-     * @param Role $role
+     * @param RoleModel $role
      * @return void
      */
-    public function created(Role $role)
+    public function created(RoleModel $role)
     {
         //
     }
@@ -21,10 +21,10 @@ class RoleObserve
     /**
      * Handle the role "updated" event.
      *
-     * @param Role $role
+     * @param RoleModel $role
      * @return void
      */
-    public function updated(Role $role)
+    public function updated(RoleModel $role)
     {
         CacheManage::role_permission($role->id)->clearData();
     }
@@ -32,10 +32,10 @@ class RoleObserve
     /**
      * Handle the role "deleted" event.
      *
-     * @param Role $role
+     * @param RoleModel $role
      * @return void
      */
-    public function deleted(Role $role)
+    public function deleted(RoleModel $role)
     {
         CacheManage::role_permission($role->id)->clearData();
     }
@@ -43,10 +43,10 @@ class RoleObserve
     /**
      * Handle the role "restored" event.
      *
-     * @param Role $role
+     * @param RoleModel $role
      * @return void
      */
-    public function restored(Role $role)
+    public function restored(RoleModel $role)
     {
         //
     }
@@ -54,10 +54,10 @@ class RoleObserve
     /**
      * Handle the role "force deleted" event.
      *
-     * @param Role $role
+     * @param RoleModel $role
      * @return void
      */
-    public function forceDeleted(Role $role)
+    public function forceDeleted(RoleModel $role)
     {
         //
     }

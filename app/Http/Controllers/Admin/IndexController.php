@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Admin;
+use App\Models\AdminModel;
 use Illuminate\Contracts\View\Factory as FactoryAlias;
 use Illuminate\Http\JsonResponse as JsonResponseAlias;
 use Illuminate\Http\Request;
@@ -51,7 +51,7 @@ class IndexController extends Controller
     public function password(Request $request)
     {
         if ($request->post()) {
-            Admin::findOne(['id' => admin()->id])->update(['password' => hashMake($request->post('password'))]);
+            AdminModel::findOne(['id' => admin()->id])->update(['password' => hashMake($request->post('password'))]);
             return responseJson([], 0, '操作成功');
         }
         return view('admin.index.password');

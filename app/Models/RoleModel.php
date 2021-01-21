@@ -18,9 +18,9 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @mixin Eloquent
  * @property string|null $rule
- * @method static Builder|Role whereRule($value)
+ * @method static Builder|RoleModel whereRule($value)
  */
-class Role extends BaseModel
+class RoleModel extends BaseModel
 {
     protected $fillable = ['name', 'content', 'status'];
 

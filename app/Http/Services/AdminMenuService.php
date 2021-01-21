@@ -11,7 +11,7 @@ namespace App\Http\Services;
 
 
 use App\Http\Communal\CacheManage;
-use App\Models\Menu;
+use App\Models\MenuModel;
 
 class AdminMenuService
 {

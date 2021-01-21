@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Menu;
+use App\Models\MenuModel;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
@@ -46,7 +46,7 @@ class MenuController extends Controller
                 'sort' => 'required',
             ]);
 
-            if (Menu::create($request->post())) {
+            if (MenuModel::create($request->post())) {
                 return responseJson(['url' => route('menu-index')], 0, '操作成功');
             }
             return responseJson([], 1, '添加失败');
@@ -64,7 +64,7 @@ class MenuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $menu = Menu::whereId($id)->first();
+        $menu = MenuModel::whereId($id)->first();
         if ($request->ajax()) {
             $this->validate($request, [
                 'name' => "required|unique:menu,name,$id,id",
@@ -94,8 +94,8 @@ class MenuController extends Controller
             'id' => 'required'
         ]);
 
-        $menu = Menu::whereIn('id', collect($request->get('id')))->get();
-        /** @var Menu $value */
+        $menu = MenuModel::whereIn('id', collect($request->get('id')))->get();
+        /** @var MenuModel $value */
         foreach ($menu as $value) {
             $value->delete();
         }

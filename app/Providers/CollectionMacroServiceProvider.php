@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Models\BaseModel;
-use App\Models\Menu;
-use App\Models\Permissions;
+use App\Models\MenuModel;
+use App\Models\PermissionsModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;

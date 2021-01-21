@@ -2,39 +2,39 @@
 
 namespace App\Observers;
 
-use App\Models\Admin;
+use App\Models\AdminModel;
 
 class AdminObserve
 {
     /**
      * Handle the admin "created" event.
      *
-     * @param Admin $admin
+     * @param AdminModel $admin
      * @return void
      */
-    public function created(Admin $admin)
+    public function created(AdminModel $admin)
     {
-        //
+        //\Log::info($admin->account . '-createTime:' . time());
     }
 
     /**
      * Handle the admin "updated" event.
      *
-     * @param Admin $admin
+     * @param AdminModel $admin
      * @return void
      */
-    public function updated(Admin $admin)
+    public function updated(AdminModel $admin)
     {
-        //
+        \Log::info($admin->account . '-updateTime:' . time());
     }
 
     /**
      * Handle the admin "deleted" event.
      *
-     * @param Admin $admin
+     * @param AdminModel $admin
      * @return void
      */
-    public function deleted(Admin $admin)
+    public function deleted(AdminModel $admin)
     {
         //
     }
@@ -42,10 +42,10 @@ class AdminObserve
     /**
      * Handle the admin "restored" event.
      *
-     * @param Admin $admin
+     * @param AdminModel $admin
      * @return void
      */
-    public function restored(Admin $admin)
+    public function restored(AdminModel $admin)
     {
         //
     }
@@ -53,10 +53,10 @@ class AdminObserve
     /**
      * Handle the admin "force deleted" event.
      *
-     * @param Admin $admin
+     * @param AdminModel $admin
      * @return void
      */
-    public function forceDeleted(Admin $admin)
+    public function forceDeleted(AdminModel $admin)
     {
         //
     }

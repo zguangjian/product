@@ -11,7 +11,7 @@ namespace App\Http\Services;
 
 
 use App\Http\Communal\CacheManage;
-use App\Models\Role;
+use App\Models\RoleModel;
 
 class AdminRoleService
 {
@@ -23,7 +23,7 @@ class AdminRoleService
     {
         $permission = CacheManage::role_permission($id)->getCacheData();
         if ($permission == null) {
-            $role = Role::findOne(['id' => $id]);
+            $role = RoleModel::findOne(['id' => $id]);
             /**  */
             if ($role->status == 0) {
                 $rule = [];

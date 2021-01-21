@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
-use App\Models\Admin;
+use App\Models\AdminModel;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class AdminController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $paginate = Admin::paginate($request->get('limit'));
+            $paginate = AdminModel::paginate($request->get('limit'));
             return responseJson($paginate->items(), 0, 'ok', ['count' => $paginate->total()]);
         }
 
@@ -76,7 +76,7 @@ class AdminController extends Controller
         if (isset($param['password'])) {
             $param['password'] = hashMake($param['password']);
         }
-        Admin::findOne($request->post('id'))->update($param);
+        AdminModel::findOne($request->post('id'))->update($param);
         return responseJson();
     }
 
@@ -90,7 +90,7 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $admin = Admin::find($id);
+        $admin = AdminModel::find($id);
         if ($request->ajax()) {
             $this->validate($request, [
 
@@ -118,7 +118,7 @@ class AdminController extends Controller
 
         try {
             DB::transaction(function () use ($id) {
-                Admin::destroy($id);
+                AdminModel::destroy($id);
             });
         } catch (Throwable $e) {
             return responseJson([], 1, $e->getMessage());
