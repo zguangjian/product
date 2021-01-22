@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Home;
 
 use App\Http\Communal\RedisManage;
 use App\Http\Controllers\Controller;
+use App\Jobs\RedisEnd;
 use App\Models\AdminModel;
 use App\Models\MenuModel;
 use Chumper\Zipper\Zipper;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Firebase\JWT\JWT;
+use Illuminate\Support\Facades\Redis;
 
 class UserController extends Controller
 {
@@ -19,10 +21,9 @@ class UserController extends Controller
 //        $arr = ['index.php']; //需要打包目录或文件路径
 //        $result = $zipper->make(public_path('test.zip'))->add($arr); // 添加需要打包路径，配置打包后路径以及文件名
 //        $result->close();
-        dd(RedisManage::menu()->setCacheData('id'));
+        $orderId = "order:" . time();
+        RedisEnd::dispatch($orderId)->delay(now()->addMinute(2))->onQueue('redisEnd');
 
-
-        dd(AdminModel::findOne()->update(['account' => 2]));
 //        $key = "example_key";
 //        $payload = array(
 //            "iss" => "http://example.org",

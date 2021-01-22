@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Redis;
 /**
  * Class RedisManage
  * @package App\Http\Communal
- * @method static RedisManage menu()
+ * @method static RedisManage menu($onlyId)
  */
 class RedisManage
 {

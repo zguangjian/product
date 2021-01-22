@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\RedisSubscribe;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -14,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        RedisSubscribe::class,
     ];
 
     /**
@@ -24,7 +26,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('order_charge')->everyMinute();
+        //$schedule->command('redis:subscribe')->everyMinute();
+        $schedule->command('redis:subscribe')->everyMinute();
     }
 
     /**

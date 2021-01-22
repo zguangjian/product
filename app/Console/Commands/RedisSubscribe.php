@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Communal\RedisManage;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Redis;
 
 class RedisSubscribe extends Command
 {
@@ -11,14 +13,14 @@ class RedisSubscribe extends Command
      *
      * @var string
      */
-    protected $signature = 'command:redis';
+    protected $signature = 'redis:subscribe';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'redis监听';
+    protected $description = 'redisCommands';
 
     /**
      * Create a new command instance.
@@ -33,11 +35,14 @@ class RedisSubscribe extends Command
     /**
      * Execute the console command.
      *
+     * @param Redis $redis
      * @return mixed
      */
-    public function handle()
+    public function handle(Redis $redis)
     {
         //
-        echo 1;
+        // RedisManage::menu(time())->setCacheData(time());
+        \Log::info("任务调度:" . date('Y-m-d H:i:s'));
+
     }
 }
